@@ -58,7 +58,7 @@ Please read the COINTRIBUTING.md for details on our code of conduct, and the pro
 
 
 ## Versioning
-We use GIT ffor versioning. For versions available, see the tags on this repository.
+We use GIT for versioning. For versions available, see the tags on this repository.
 
 
 ## Authors
