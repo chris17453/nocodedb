@@ -1,0 +1,83 @@
+<div>
+	<nav class="breadcrumb mb-0">
+		<div class="container">
+			<a class="breadcrumb-item app_home" href="#home">Home</a>
+			<span class="breadcrumb-item active">Package Open</span>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row bg-light border border-left-0 border-right-0 border-top-0 border-secondary">
+			  <div class="col bg-light font-weight-bold pl-3 p-1"><i class="fas fa-folder-open"></i>
+				<span id="folder-path"></span> 
+			  </div>
+		</div> <!-- path -->
+		<div class="row">
+			<div class="col-3 file-folder-height bg-light p-6">
+				<div class="p-3">
+					<div id="folder-tree"></div>
+				</div>
+			</div> <!-- folder-height -->
+			
+			<div class="col-7 p-0">
+				<table class="table table-fixed bg-light table-hover mb-0">
+					<thead>
+						<tr>
+						  <th class="col-8">Name</th>
+						  <th class="col-2  text-right">Size</th>
+						  <th class="col-2  text-right">Modified</th>
+						</tr>
+					</thead>
+					<tbody id="file_browser" class="bg-white file-dialog-height table-sm">
+					  <tr><td colspan="4">No Files</td></tr>
+					</tbody>
+					<tfoot>
+						<tr>
+						  <td class="col-8">Name</td>
+						  <td class="col-2  text-right">Size</td>
+						  <td class="col-2  text-right">Modified</td>
+						</tr>
+					</tfoot>
+				</table>
+			</div> <!-- col-7 -->
+			<div class="col-2 p-0 bg-light ">
+				<div class="col mb-3 mt-3 block">
+					<button id="file-dialog-cancel" class="btn-block btn btn-secondary">Cancel</button>
+				</div>
+				<div class="col mt block">
+					<button id="file-dialog-ok" class="btn-block btn btn-primary">Open</button>
+				</div>
+				<div class="col mt-3 bg-light border border-left-0 border-right-0 border-top-0 border-secondary"></div><!-- divider -->
+				<div class="col mt block">
+					<div class="row ml-3 mt-3">
+						<div class="checkbox">
+						  <label>
+							<input data-toggle="toggle" type="checkbox"  data-size="small" data-onstyle="success" data-offstyle="danger" id="file-browser-show-hidden-folders" />
+							Sys Folders
+						  </label>
+						</div><!-- end checkbox -->
+					</div><!-- end checkbox col -->
+					<div class="row ml-3 mt-3">
+						<div class="checkbox">
+						  <label>
+							<input data-toggle="toggle" type="checkbox"  data-size="small" data-onstyle="success" data-offstyle="danger" id="file-browser-show-hidden-files" />
+							Sys Files
+						  </label>
+						</div><!-- end checkbox -->
+					</div><!-- end checkbox col -->
+					<div class="row ml-3 mt-3">
+						<div class="checkbox">
+						  <label>
+							<input data-toggle="toggle" type="checkbox"  data-size="small" data-onstyle="success" data-offstyle="danger" id="file-browser-ncdb-only" />
+							ncdb only
+						  </label>
+						</div><!-- end checkbox -->
+					</div><!-- end checkbox col -->
+				</div>
+				<div class="col mt-3 bg-light border border-left-0 border-right-0 border-top-0 border-secondary"></div><!-- divider -->
+
+
+			</div><!-- end info column -->
+
+		</div><!-- row-->
+	</div><!-- container -->
+</div><!-- root of file dialog -->

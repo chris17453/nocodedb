@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "data", "data\data.csproj", "{D580FE26-16EB-44C0-A984-404102C32704}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "core", "core\core.csproj", "{1B7F41A6-C07B-4F11-963C-AD2D01B43988}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "code", "code\code.csproj", "{B89D380C-CF3C-4268-B693-C478D8F9AFE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log", "log\log.csproj", "{7EC32681-4F92-4CE4-8B04-6E835519A162}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{E504034B-F5AC-4A91-A448-456E60213097}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "models", "package\models.csproj", "{4DACE0EC-B0F7-48FD-A5A2-57E11D0B4B02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "object_viewer", "object_viewer\object_viewer.csproj", "{0C43D3AE-0B85-40B4-A950-0A7BA06BBA1C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ui", "ui\ui.csproj", "{3C364135-137A-466F-A206-54E18625DE58}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D580FE26-16EB-44C0-A984-404102C32704}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D580FE26-16EB-44C0-A984-404102C32704}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D580FE26-16EB-44C0-A984-404102C32704}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D580FE26-16EB-44C0-A984-404102C32704}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B7F41A6-C07B-4F11-963C-AD2D01B43988}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B7F41A6-C07B-4F11-963C-AD2D01B43988}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B7F41A6-C07B-4F11-963C-AD2D01B43988}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B7F41A6-C07B-4F11-963C-AD2D01B43988}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B89D380C-CF3C-4268-B693-C478D8F9AFE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B89D380C-CF3C-4268-B693-C478D8F9AFE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B89D380C-CF3C-4268-B693-C478D8F9AFE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B89D380C-CF3C-4268-B693-C478D8F9AFE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EC32681-4F92-4CE4-8B04-6E835519A162}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EC32681-4F92-4CE4-8B04-6E835519A162}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EC32681-4F92-4CE4-8B04-6E835519A162}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EC32681-4F92-4CE4-8B04-6E835519A162}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E504034B-F5AC-4A91-A448-456E60213097}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E504034B-F5AC-4A91-A448-456E60213097}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E504034B-F5AC-4A91-A448-456E60213097}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E504034B-F5AC-4A91-A448-456E60213097}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DACE0EC-B0F7-48FD-A5A2-57E11D0B4B02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DACE0EC-B0F7-48FD-A5A2-57E11D0B4B02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DACE0EC-B0F7-48FD-A5A2-57E11D0B4B02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DACE0EC-B0F7-48FD-A5A2-57E11D0B4B02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C43D3AE-0B85-40B4-A950-0A7BA06BBA1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C43D3AE-0B85-40B4-A950-0A7BA06BBA1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C43D3AE-0B85-40B4-A950-0A7BA06BBA1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C43D3AE-0B85-40B4-A950-0A7BA06BBA1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C364135-137A-466F-A206-54E18625DE58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C364135-137A-466F-A206-54E18625DE58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C364135-137A-466F-A206-54E18625DE58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C364135-137A-466F-A206-54E18625DE58}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		Policies = $0
+		$0.DotNetNamingPolicy = $1
+		$1.DirectoryNamespaceAssociation = PrefixedHierarchical
+	EndGlobalSection
+EndGlobal

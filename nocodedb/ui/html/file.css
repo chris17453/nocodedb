@@ -1,0 +1,95 @@
+.folder-row{
+	color:black;
+}
+#folder-tree > .row > .col{
+    display:inherit;
+    text-wrap:none;
+    cursor:pointer;
+}
+#folder-tree > .row > .col:hover{
+    background-color:darkgrey;
+    color:white;
+    cursor:pointer;
+}
+
+.file-dialog-height{
+	height:calc(100vh - 297px);
+	overflow-y:auto;
+	overflow-x:hidden; 
+}
+
+.file-folder-height{
+	height:calc(100vh - 207px);
+	overflow-y:auto;
+	overflow-x:hidden; 
+}
+.file-dialog-text{
+    overflow: hidden;
+    text-overflow:ellipse;
+    word-break: keep-all;
+}
+
+.file-active{
+background:darkgrey;
+color:white;
+
+}
+#app_open_package{
+ -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;    
+}
+#app_open_package svg {
+	
+}
+.folder-special{
+	color:#008aff;
+}
+
+.folder{
+	color:#6e8dd7;
+}
+
+.file svg{
+	color:#1c446b;
+}
+
+.table-fixed > tbody > tr:hover{
+	background:light-grey;
+	color:black;
+	cursor:pointer;
+}
+
+.table-fixed{
+  width: 100%;
+  	cursor:pointer;
+
+}
+.table-fixed tbody{
+    overflow-y:auto;
+    width: 100%;
+    }
+    
+.table-fixed thead,tbody,tfoot,tr,td,th{
+    display:flow-root;
+    overflow:hidden;
+    white-space:nowrap;
+    word-break:keep-all;
+    text-overflow:ellipse;
+  }
+
+.table-fixed tbody td{
+      float:left;
+      overflow:hidden;
+  }
+  
+.table-fixed thead th{
+        float:left;
+        overflow:hidden;
+}
+.table-fixed tfoot td{
+        float:left;
+        overflow:hidden;
+}
