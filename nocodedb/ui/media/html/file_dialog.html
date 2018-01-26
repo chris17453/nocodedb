@@ -1,0 +1,56 @@
+<div class="container">
+	<div class="row bg-light border border-left-0 border-right-0 border-top-0 border-secondary">
+	   <div class="col bg-light font-weight-bold pl-3 p-1"><i class="fas fa-folder-open"></i> <span id="folder-path"></span></div>
+	</div>
+	<div class="row">
+	   <div class="col-3 browsy-folder-height bg-light p-6">
+		  <div class="p-3">
+			 <div class="browsy-tree"></div>
+		  </div>
+	   </div>
+	   <div class="col-7 p-0">
+		  <table class="browsy-table table-fixed bg-light table-hover mb-0">
+			 <thead>
+				<tr>
+				   <th class="col-8">Name</th>
+				   <th class="col-2 text-right">Size</th>
+				   <th class="col-2 text-right">Modified</th>
+				</tr>
+			 </thead>
+			 <tbody class="browsy-file bg-white browsy-file-height table-sm">
+				<tr><td colspan="4">No Files</td></tr>
+			 </tbody>
+			 <tfoot>
+				<tr>
+				   <td class="col-8">Name</td>
+				   <td class="col-2 text-right">Size</td>
+				   <td class="col-2 text-right">Modified</td>
+				</tr>
+			 </tfoot>
+		  </table>
+	   </div>
+	   <div class="col-2 p-0 bg-light ">
+		  <div class="col mb-3 mt-3 block"> <button class="browsy-cancel btn-block btn btn-secondary">Cancel</button></div>
+		  <div class="col mt block"> <button class="browsy-ok btn-block btn btn-primary">Open</button></div>
+		  <div class="col mt-3 bg-light border border-left-0 border-right-0 border-top-0 border-secondary"></div>
+		  <div class="col mt block">
+			 <div class="row ml-3 mt-3">
+				<div class="checkbox"> <label> 
+				   <input class="browsy-show-hidden-folders" data-toggle="toggle" type="checkbox" data-size="small" data-onstyle="success" data-offstyle="danger" />Sys Folders </label>
+				</div>
+			 </div>
+			 <div class="row ml-3 mt-3">
+				<div class="checkbox"> <label> 
+				   <input class="browsy-show-hidden-files" data-toggle="toggle" type="checkbox" data-size="small" data-onstyle="success" data-offstyle="danger" />Sys Files </label>
+				</div>
+			 </div>
+			 <div class="row ml-3 mt-3">
+				<div class="checkbox"> <label> 
+				   <input class="browsy-filtered" data-toggle="toggle" type="checkbox" data-size="small" data-onstyle="success" data-offstyle="danger"  />Filtered</label>
+				</div>
+			 </div>
+		  </div>
+		  <div class="col mt-3 bg-light border border-left-0 border-right-0 border-top-0 border-secondary"></div>
+	   </div>
+	</div>
+</div>

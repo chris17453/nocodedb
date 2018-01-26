@@ -1,0 +1,11 @@
+.db-blue{
+ color:#60A0FF;
+ font-weight:bold;
+}
+body {
+  min-height: 100vh; 
+}
+
+.flex-grow {
+   flex: 1;
+}

@@ -1,0 +1,98 @@
+.browsy{
+	height:100%;
+}
+.browsy-row{
+	height:100%;
+}
+.browsy-file-container{
+	height:calc(100% - 90px);
+	overflow-y:auto;
+	overflow-x:hidden; 
+	min-height:0px;
+}
+
+.browsy-folder-container{
+	height:calc(100% - 0px);
+	min-height:89px;
+	overflow-y:auto;
+	overflow-x:hidden; 
+}
+.browsy-info-container{
+	height:calc(100% - 0px);
+	min-height:89px;
+	overflow-y:auto;
+	overflow-x:hidden; 
+}
+.browsy-tree > .row > .col{
+    display:inherit;
+    text-wrap:none;
+    cursor:pointer;
+}
+.browsy-tree > .row > .col:hover{
+    background-color:darkgrey;
+    color:white;
+    cursor:pointer;
+}
+
+.browsy-folder{
+	color:#6e8dd7;
+}
+
+.browsy-folder-row{
+	color:black;
+}
+
+.browsy-folder-special{
+	color:#008aff;
+}
+
+.browsy-file svg {
+	color:#1c446b;
+}
+
+.browsy-file-active{
+	background:darkgrey;
+	color:white;
+}
+.browsy-file-text{
+    overflow: hidden;
+    text-overflow:ellipse;
+    word-break: keep-all;
+}
+
+
+
+/*This is for the center file list portion*/
+.browsy-table-fixed{
+	width:100%;
+	cursor:pointer;
+	height:100%;
+}
+.browsy-table-fixed > tbody > tr:hover{
+	background:light-grey;
+	color:black;
+	cursor:pointer;
+}
+.browsy-table-fixed tbody{
+    overflow-y:auto;
+    width: 100%;
+}
+.browsy-table-fixed thead,tbody,tfoot,tr,td,th{
+    display:flow-root;
+    overflow:hidden;
+    white-space:nowrap;
+    word-break:keep-all;
+    text-overflow:ellipse;
+}
+.browsy-table-fixed tbody td{
+	float:left;
+	overflow:hidden;
+}
+.browsy-table-fixed thead th{
+	float:left;
+	overflow:hidden;
+}
+.browsy-table-fixed tfoot td{
+	float:left;
+	overflow:hidden;
+}

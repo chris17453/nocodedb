@@ -1,0 +1,56 @@
+.app_page{
+/*	margin-top:50px;*/
+/*	margin-bottom:150px;*/
+}
+.bd-pageheader {
+    padding: 2rem 15px;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    color: ##d2d2d2;
+    text-align: left;
+    background-color: #122030;
+}
+.bd-pageheader p,h1{
+	color:white;
+}
+.bd-message {
+    color: #d2d2d2;
+    text-align: left;
+    background-color: #1f2b39;
+}
+
+.col_center svg{
+	display: block;
+	margin-left:auto;
+	margin-right:auto;
+	color:#245375;
+}
+.col_center h3{
+	text-align: center;
+}
+.hidden{
+	display:none;
+}
+.dropdown-menu > a:hover{
+	color:black !important;
+	background:lghtgrey;
+	cursor:pointer;
+}
+.clear{
+	clear:both;
+}
+
+#app_open_package{
+ -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;    
+}
+#app_open_package svg {
+	
+}
+.server_file_dialog{
+height:calc(100vh - 206px);
+}

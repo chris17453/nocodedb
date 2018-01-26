@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\NuGet.Build.Packaging.0.2.0\build\NuGet.Build.Packaging.props" Condition="Exists('..\packages\NuGet.Build.Packaging.0.2.0\build\NuGet.Build.Packaging.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -8,6 +9,16 @@
     <RootNamespace>data</RootNamespace>
     <AssemblyName>data</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <PackOnBuild>true</PackOnBuild>
+    <PackageId>nocodedb.data</PackageId>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>Charles Watkins</Authors>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Owners>Charles Watkins</Owners>
+    <PackageProjectUrl>nocodedb.com</PackageProjectUrl>
+    <PackageTags>nocodedb nocode </PackageTags>
+    <Description>An interfaced database driver that supports MSSQL and MySQL.</Description>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,22 +42,21 @@
     <Reference Include="System.Data" />
     <Reference Include="Mono.Data.Tds" />
     <Reference Include="System.Web.Extensions" />
+    <Reference Include="MySql.Data">
+      <HintPath>dll\MySql.Data.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="interface\IData.cs" />
     <Compile Include="adapters\mssql\mssql_adapter.cs" />
     <Compile Include="adapters\mysql\mysql_adapter.cs" />
-    <Compile Include="adapters\flat_file\flat_file_adapter.cs" />
-    <Compile Include="adapters\json\json_adapter.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="interface\" />
     <Folder Include="adapters\" />
     <Folder Include="adapters\mysql\" />
     <Folder Include="adapters\mssql\" />
-    <Folder Include="adapters\flat_file\" />
-    <Folder Include="adapters\json\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\log\log.csproj">
@@ -54,5 +64,10 @@
       <Name>log</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\NuGet.Build.Packaging.0.2.0\build\NuGet.Build.Packaging.targets" Condition="Exists('..\packages\NuGet.Build.Packaging.0.2.0\build\NuGet.Build.Packaging.targets')" />
 </Project>

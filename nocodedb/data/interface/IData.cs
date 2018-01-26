@@ -20,7 +20,7 @@ using System.Web.Script.Serialization;
 namespace nocodedb.data{
     [Serializable]
     public enum  database_type{
-        MSSQL=1,MySQL=2,SQLite=3,JSON=4,FLAT_FILE=5
+        MSSQL=1,MySQL=2
     }
     public class column_meta{
         public bool   AllowDBNull           { get; set; }
@@ -151,16 +151,15 @@ namespace nocodedb.data{
         data_set      sp_fetch           (string connection_string, string query, Hashtable parameters,bool meta=false);              //returns a rows from a stored procedure 
         data_set      sp_fetch_all       (string connection_string, string query, Hashtable parameters,bool meta=false);              //returns a list of rows from a stored procedure 
 	}
-    public class db{
-        db(database_type type){
-            IData db;
+    public static class db{
+        public static IData @new(database_type type){
+            IData adapter =null;
+                
             switch(type){
-                case database_type.MSSQL    : db=new mssql_adapter();     break;
-                case database_type.MySQL    : db=new mysql_adapter();     break;
-                case database_type.JSON     : db=new json_adapter();      break;
-                case database_type.FLAT_FILE: db=new flat_file_adapter(); break;
+                case database_type.MSSQL    : adapter=new mssql_adapter();     break;
+                case database_type.MySQL    : adapter=new mysql_adapter();     break;
             }
-
+            return adapter;
         }
     }
 }
