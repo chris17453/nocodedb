@@ -87,18 +87,21 @@ namespace ui{
         }
 
 
-        [Route("get_dir")]
+     /*   [Route("database_list")]
         [HttpPost]
-        public directory get_dir(dir_path path) {
-            directory d=new directory();
-
-            try{
-                d.get(path.path);
-            } catch(Exception ex) {
-                return d;
-            }
-            return d;
+        public database_list database_list(dir_path path) {
         }
+
+        [Route("table_list")]
+        [HttpPost]
+        public table_list table_list(dir_path path) {
+        }
+
+        [Route("table_schema")]
+        [HttpPost]
+        public table table_list(dir_path path) {
+        }
+*/
 
 
 

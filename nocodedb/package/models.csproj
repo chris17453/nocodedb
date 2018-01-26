@@ -46,10 +46,10 @@
     <Compile Include="models\package.cs" />
     <Compile Include="models\settings_writer.cs" />
     <Compile Include="models\recent_sources.cs" />
-    <Compile Include="models\directory.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="models\" />
+    <Folder Include="models\browsy\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\data\data.csproj">

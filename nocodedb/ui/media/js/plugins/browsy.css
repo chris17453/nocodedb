@@ -1,27 +1,33 @@
 .browsy{
-	height:100%;
+    height:100%;
+    min-height:10vh;
+    max-height:100vh;
+    background-color:#e9ecef !important;
 }
 .browsy-row{
-	height:100%;
+    height:100%;
 }
 .browsy-file-container{
-	height:calc(100% - 90px);
-	overflow-y:auto;
-	overflow-x:hidden; 
-	min-height:0px;
+    height:calc(100% - 84px);
+    overflow-y:auto;
+    overflow-x:hidden; 
+    min-height:0px;
+    background:white;
+    cursor:pointer;
+
 }
 
 .browsy-folder-container{
-	height:calc(100% - 0px);
-	min-height:89px;
-	overflow-y:auto;
-	overflow-x:hidden; 
+    height:calc(100% - 24px);
+    min-height:89px;
+    overflow-y:auto;
+    overflow-x:hidden; 
 }
 .browsy-info-container{
-	height:calc(100% - 0px);
-	min-height:89px;
-	overflow-y:auto;
-	overflow-x:hidden; 
+    height:calc(100% - 24px);
+    min-height:89px;
+    overflow-y:auto;
+    overflow-x:hidden; 
 }
 .browsy-tree > .row > .col{
     display:inherit;
@@ -35,64 +41,67 @@
 }
 
 .browsy-folder{
-	color:#6e8dd7;
+    float:left;
+    color:#6e8dd7;
 }
 
 .browsy-folder-row{
-	color:black;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */   
+    color:black;
 }
 
 .browsy-folder-special{
-	color:#008aff;
+    color:#008aff;
 }
 
 .browsy-file svg {
-	color:#1c446b;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */   
+    color:#1c446b;
 }
 
 .browsy-file-active{
-	background:darkgrey;
-	color:white;
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */     background:darkgrey;
+    color:white;
 }
-.browsy-file-text{
+.browsy-text{
     overflow: hidden;
-    text-overflow:ellipse;
+    text-overflow:ellipsis;
+    word-break: keep-all;
+    float:left;
+}
+.browsy-grid{
+    height:100%;
+}
+.browsy-header{
+    border-bottom-style:solid;
+    border-bottom-color:grey;
+    border-bottom-width:1px;
+}
+
+.browsy-footer{
+    border-top-style:solid;
+    border-top-color:grey;
+    border-top-width:1px;
+}
+.browsy .row{
+    margin-left:0px;
+    margin-right:0px;
+}
+.browsy-ellipse{
+    overflow: hidden;
+    text-overflow:ellipsis;
     word-break: keep-all;
 }
+.clear {
+clear:both;
 
-
-
-/*This is for the center file list portion*/
-.browsy-table-fixed{
-	width:100%;
-	cursor:pointer;
-	height:100%;
-}
-.browsy-table-fixed > tbody > tr:hover{
-	background:light-grey;
-	color:black;
-	cursor:pointer;
-}
-.browsy-table-fixed tbody{
-    overflow-y:auto;
-    width: 100%;
-}
-.browsy-table-fixed thead,tbody,tfoot,tr,td,th{
-    display:flow-root;
-    overflow:hidden;
-    white-space:nowrap;
-    word-break:keep-all;
-    text-overflow:ellipse;
-}
-.browsy-table-fixed tbody td{
-	float:left;
-	overflow:hidden;
-}
-.browsy-table-fixed thead th{
-	float:left;
-	overflow:hidden;
-}
-.browsy-table-fixed tfoot td{
-	float:left;
-	overflow:hidden;
 }

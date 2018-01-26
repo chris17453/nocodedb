@@ -5,6 +5,8 @@ using System;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Web.Cors;
+using Microsoft.Owin.StaticFiles;
+using Microsoft.Owin.FileSystems;
 
 namespace ui {
     public class Startup
@@ -13,6 +15,15 @@ namespace ui {
             var webApiConfiguration = ConfigureWebApi();
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 
+            const string rootFolder = "../../";
+            var fileSystem=new PhysicalFileSystem(rootFolder);
+            var options = new FileServerOptions
+            {
+                EnableDefaultFiles = true,
+                FileSystem = fileSystem
+            };
+
+            app.UseFileServer(options);
 
             app.UseWebApi(webApiConfiguration);
         }
