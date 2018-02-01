@@ -7,7 +7,7 @@ namespace nocodedb {
     }
     public static class log {
         public static void write(string source,log_type type,string data) {
-            //do something
+            Console.WriteLine(data);
         }
         public static void query(string source,string connection_string,string query,Hashtable parameters){
         }
