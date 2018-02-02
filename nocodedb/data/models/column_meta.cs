@@ -14,7 +14,7 @@ namespace nocodedb.data.models{
         public string ColumnName                { get; set; }
         public int    ColumnOrdinal             { get; set; }
         public int    ColumnSize                { get; set; }
-        public string DataTypeName              { get; set; }
+        public Type   DataType                  { get; set; }
         public bool   IsAliased                 { get; set; }
         public bool   IsAutoIncrement           { get; set; }
         public bool   IsColumnSet               { get; set; }
@@ -38,13 +38,39 @@ namespace nocodedb.data.models{
 
         public column_meta(){
         }
+
+        public static bool CanChangeType(object value, Type conversionType)
+        {
+            if (conversionType == null){
+                return false;
+            }
+
+            if (value == null){              
+                return false;
+            }
+
+            IConvertible convertible = value as IConvertible;
+
+            if (convertible == null){
+                return false;
+            }
+
+            return true;
+        }
         public column_meta(DataColumnCollection columns,DataRow  row) {
             try{
+                DataColumn c=new DataColumn();
+
                 foreach (DataColumn col in columns){
                     PropertyInfo p=this.GetType().GetProperty(col.ColumnName);
                     if(null!=p) {
                         if(row!=null && row[col]!=DBNull.Value) {
-                            p.SetValue(this, Convert.ChangeType(row[col], p.PropertyType),null);
+                            if(CanChangeType(row[col],p.PropertyType)) {
+                                p.SetValue(this, Convert.ChangeType(row[col], p.PropertyType),null);
+                            } else {
+                                p.SetValue(this, row[col],null);    
+
+                            }
                         } else {
                             p.SetValue(this, null,null);
                         }

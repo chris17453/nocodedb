@@ -8,7 +8,11 @@ namespace create_db_object{
             Console.WriteLine("Hello World!");
 
 
-            Console.Write(nocodedb.data.db.map_table("titan","titanDWS","dbo","titanDWS"));
+            string o=nocodedb.data.assembly.generator.map_table("titan","titanDWS","dbo","titanDWS");
+
+
+            nocodedb.data.assembly.generator.compile_dll("test",o);
+            Console.Write(o);
             Console.ReadKey();
 
             //IData db=nocodedb.data.db.map_table("")

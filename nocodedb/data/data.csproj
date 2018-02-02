@@ -67,6 +67,8 @@
     <Compile Include="models\parameters.cs" />
     <Compile Include="adapters\base_adapter.cs" />
     <Compile Include="models\crud.cs" />
+    <Compile Include="assembly\generator.cs" />
+    <Compile Include="EmptyClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="interface\" />
@@ -74,6 +76,7 @@
     <Folder Include="adapters\mysql\" />
     <Folder Include="adapters\mssql\" />
     <Folder Include="models\" />
+    <Folder Include="assembly\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\log\log.csproj">
