@@ -1,4 +1,16 @@
-﻿using System;
+﻿/***********************************************
+    ███╗   ██╗ ██████╗██████╗ ██████╗ 
+    ████╗  ██║██╔════╝██╔══██╗██╔══██╗
+    ██╔██╗ ██║██║     ██║  ██║██████╔╝
+    ██║╚██╗██║██║     ██║  ██║██╔══██╗
+    ██║ ╚████║╚██████╗██████╔╝██████╔╝
+    ╚═╝  ╚═══╝ ╚═════╝╚═════╝ ╚═════╝ 
+    author : Charles Watkins
+    created: 2017-12-23
+    email  : chris17453@gmail.com
+    github : https://github.com/chris17453
+**********************************************/
+using System;
 using System.Web.Script.Serialization;
 
 namespace nocodedb.data.models{

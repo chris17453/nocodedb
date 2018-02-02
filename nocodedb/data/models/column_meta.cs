@@ -1,4 +1,16 @@
-﻿using System;
+﻿/***********************************************
+    ███╗   ██╗ ██████╗██████╗ ██████╗ 
+    ████╗  ██║██╔════╝██╔══██╗██╔══██╗
+    ██╔██╗ ██║██║     ██║  ██║██████╔╝
+    ██║╚██╗██║██║     ██║  ██║██╔══██╗
+    ██║ ╚████║╚██████╗██████╔╝██████╔╝
+    ╚═╝  ╚═══╝ ╚═════╝╚═════╝ ╚═════╝ 
+    author : Charles Watkins
+    created: 2017-12-23
+    email  : chris17453@gmail.com
+    github : https://github.com/chris17453
+**********************************************/
+using System;
 using System.Data;
 using System.Reflection;
 
@@ -39,8 +51,7 @@ namespace nocodedb.data.models{
         public column_meta(){
         }
 
-        public static bool CanChangeType(object value, Type conversionType)
-        {
+        public static bool CanChangeType(object value, Type conversionType) {
             if (conversionType == null){
                 return false;
             }

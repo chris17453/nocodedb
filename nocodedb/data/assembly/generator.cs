@@ -1,4 +1,16 @@
-﻿using System;
+﻿/***********************************************
+    ███╗   ██╗ ██████╗██████╗ ██████╗ 
+    ████╗  ██║██╔════╝██╔══██╗██╔══██╗
+    ██╔██╗ ██║██║     ██║  ██║██████╔╝
+    ██║╚██╗██║██║     ██║  ██║██╔══██╗
+    ██║ ╚████║╚██████╗██████╔╝██████╔╝
+    ╚═╝  ╚═══╝ ╚═════╝╚═════╝ ╚═════╝ 
+    author : Charles Watkins
+    created: 2017-12-23
+    email  : chris17453@gmail.com
+    github : https://github.com/chris17453
+**********************************************/
+using System;
 using System.CodeDom.Compiler;
 using System.Collections;
 using System.Collections.Generic;
@@ -214,7 +226,6 @@ namespace nocodedb.data.assembly
                         Console.WriteLine( "TempFile " + i.ToString() + ": " + (string)enu.Current );                  
                 }
             }        
-        
         
         }
 
