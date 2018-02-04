@@ -80,9 +80,19 @@ namespace nocodedb.data{
             } else if(String.IsNullOrEmpty(connection_target)) {                                                //its a data connection
                 _connection_string = ConfigurationManager.ConnectionStrings["data_server"].ConnectionString;
                 _provider_name     = ConfigurationManager.ConnectionStrings["data_server"].ProviderName;
-            } else {                                                                                            //its a specific connection
-                _connection_string = ConfigurationManager.ConnectionStrings["connection_target"].ConnectionString;
-                _provider_name     = ConfigurationManager.ConnectionStrings["connection_target"].ProviderName;
+            } else {                                                                                            
+                if(null==ConfigurationManager.ConnectionStrings[connection_target]) {                                       //its the actual connection string...
+                    string[] tokens=connection_target.Split('|');
+                    if(tokens.Length>=2) {
+                        _connection_string=tokens[1];
+                        _provider_name    =tokens[0];
+                    } else {
+                        throw new Exception("Invalid number of connection components");
+                    }
+                } else {
+                    _connection_string = ConfigurationManager.ConnectionStrings[connection_target].ConnectionString;        //use custom config connection string
+                    _provider_name     = ConfigurationManager.ConnectionStrings[connection_target].ProviderName;
+                }
             }
 
             switch(_provider_name){

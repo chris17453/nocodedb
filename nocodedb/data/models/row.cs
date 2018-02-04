@@ -49,7 +49,7 @@ namespace nocodedb.data.models{
         }
 
         private column_data get_data(int index){
-            if(0>=index && columns.Count<=index) {
+            if(0<=index && columns.Count>index) {
                 return columns[index];
             }
             return null;

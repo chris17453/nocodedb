@@ -25,12 +25,14 @@ using nocodedb.data.models;
 
 namespace nocodedb.data.adapters{
     public class mssql_adapter:base_adapter{
+        public override char left_field_seperator  { get { return '['; } }
+        public override char right_field_seperator { get { return ']'; } }
 
         public mssql_adapter(){
         }
 
 
-        public string connection_string(string host, string user, string password) {
+        public override string build_connection_string(string host, string user, string password) {
             SqlConnectionStringBuilder builder =  new SqlConnectionStringBuilder();  
             builder.UserID      =user;
             builder.DataSource  =host;
@@ -112,7 +114,7 @@ namespace nocodedb.data.adapters{
                         reader = command.ExecuteReader(command_behavior);
                         if(q.meta) {
                             DataTable schema=reader.GetSchemaTable();
-                            int dbFields = schema.Columns.Count;;
+                            int dbFields = schema.Rows.Count;;
 
                             for (int i = 0; i < dbFields; i++){
                                 results.columns.Add(new column_meta(schema.Columns,schema.Rows[i]));
@@ -148,7 +150,9 @@ namespace nocodedb.data.adapters{
             }
             return results;
         }
-
+        public override void Dispose(){
+            base.Dispose();
+        }
     }
 }
 

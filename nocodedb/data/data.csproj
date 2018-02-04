@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>data</RootNamespace>
     <AssemblyName>data</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <PackOnBuild>true</PackOnBuild>
     <PackageId>nocodedb.data</PackageId>
     <PackageVersion>1.0.0</PackageVersion>
@@ -68,6 +68,7 @@
     <Compile Include="adapters\base_adapter.cs" />
     <Compile Include="models\crud.cs" />
     <Compile Include="assembly\generator.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="interface\" />

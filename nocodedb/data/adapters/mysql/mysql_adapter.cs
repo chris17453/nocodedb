@@ -26,12 +26,14 @@ using nocodedb.data.models;
 
 namespace nocodedb.data.adapters{
     public class mysql_adapter:base_adapter,IData{
+        public override char left_field_seperator  { get { return '`'; } }
+        public override char right_field_seperator { get { return '`'; } }
 
         public mysql_adapter(){
         }
 
 
-        public override string connection_string(string host, string user, string password) {
+        public override string build_connection_string(string host, string user, string password) {
             MySqlConnectionStringBuilder builder =  new MySqlConnectionStringBuilder();  
             builder.UserID      =user;
             builder.Server      =host;
@@ -147,6 +149,9 @@ namespace nocodedb.data.adapters{
                 this.log(q,log_type.Error,e.ToString());
             }
             return results;
+        }
+        public override void Dispose(){
+            base.Dispose();
         }
     }
 }

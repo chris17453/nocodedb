@@ -40,9 +40,11 @@ namespace nocodedb.data.assembly
         public static string map_database(string connection_target,string database){
             StringBuilder tables=new StringBuilder();
             data_set data=db.fetch_all(connection_target,string.Format("SELECT TABLE_SCHEMA,TABLE_NAME FROM {0}.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE'",database));
+            tables.AppendLine("using System;");
 
             foreach(row r in  data.rows){
-                tables.AppendLine(map_table(connection_target,database,r[1].ToString(),r[0].value.ToString()));
+                tables.AppendLine(map_table(connection_target,database,r[0].ToString(),r[1].value.ToString()));
+     //           Console.ReadKey();
             }
             return tables.ToString();
         }
@@ -91,24 +93,24 @@ namespace nocodedb.data.assembly
 
                     if(property_value==null) {
                         switch(tc) {   
-                            case TypeCode.Boolean  : o.AppendLine(string.Format("\t\t public const {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.Byte     : o.AppendLine(string.Format("\t\t public const {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.Char     : o.AppendLine(string.Format("\t\t public const {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.DateTime : o.AppendLine(string.Format("\t\t public const {0} \t{1}=null;",pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.DBNull   : o.AppendLine(string.Format("\t\t public const {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.Decimal  : o.AppendLine(string.Format("\t\t public const {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.Double   : o.AppendLine(string.Format("\t\t public const {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.Empty    : o.AppendLine(string.Format("\t\t public const {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.Int16    : o.AppendLine(string.Format("\t\t public const {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.Int32    : o.AppendLine(string.Format("\t\t public const {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.Int64    : o.AppendLine(string.Format("\t\t public const {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.Object   : o.AppendLine(string.Format("\t\t public const {0} \t{1}=null;",pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.SByte    : o.AppendLine(string.Format("\t\t public const {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.Single   : o.AppendLine(string.Format("\t\t public const {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.String   : o.AppendLine(string.Format("\t\t public const {0} \t{1}=null;",pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.UInt16   : o.AppendLine(string.Format("\t\t public const {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.UInt32   : o.AppendLine(string.Format("\t\t public const {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
-                            case TypeCode.UInt64   : o.AppendLine(string.Format("\t\t public const {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.Boolean  : o.AppendLine(string.Format("\t\t public const  {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.Byte     : o.AppendLine(string.Format("\t\t public const  {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.Char     : o.AppendLine(string.Format("\t\t public const  {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.DateTime : o.AppendLine(string.Format("\t\t public const  {0} \t{1}=null;",pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.DBNull   : o.AppendLine(string.Format("\t\t public const  {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.Decimal  : o.AppendLine(string.Format("\t\t public const  {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.Double   : o.AppendLine(string.Format("\t\t public const  {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.Empty    : o.AppendLine(string.Format("\t\t public const  {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.Int16    : o.AppendLine(string.Format("\t\t public const  {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.Int32    : o.AppendLine(string.Format("\t\t public const  {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.Int64    : o.AppendLine(string.Format("\t\t public const  {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.Object   : o.AppendLine(string.Format("\t\t public const  {0} \t{1}=null;",pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.SByte    : o.AppendLine(string.Format("\t\t public const  {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.Single   : o.AppendLine(string.Format("\t\t public const  {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.String   : o.AppendLine(string.Format("\t\t public const  {0} \t{1}=null;",pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.UInt16   : o.AppendLine(string.Format("\t\t public const  {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.UInt32   : o.AppendLine(string.Format("\t\t public const  {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
+                            case TypeCode.UInt64   : o.AppendLine(string.Format("\t\t public const  {0} \t{1};"     ,pi.PropertyType.Name,pi.Name)); break;
                             default : break;
                         }
                     } else {
@@ -147,13 +149,12 @@ namespace nocodedb.data.assembly
 
 
         public static string map_table(string connection_target,string database,string schema,string table){
-            data_set data=db.fetch_all(connection_target,"SELECT TOP 1 * FROM "+table,null,true);
+            data_set data=db.fetch_all(connection_target,string.Format("SELECT TOP 1 * FROM [{0}].[{1}].[{2}]",database,schema,table),null,true);
             StringBuilder o=new StringBuilder();
             database=safe_name(database);
             schema  =safe_name(schema);
             table   =safe_name(table);
-            o.AppendLine("using System;");
-
+           
             o.AppendLine(map_columns(data.columns,database,schema,table));                              //the column meta classes
 
             o.AppendLine(string.Format("namespace ncdb.{0}.{1} {{",database,schema));
@@ -193,12 +194,23 @@ namespace nocodedb.data.assembly
 
             return o.ToString();
         }
+
         public static void compile_dll (string filename,string code){
+            Console.WriteLine("Compiling");
             CSharpCodeProvider codeProvider = new CSharpCodeProvider();
             System.CodeDom.Compiler.CompilerParameters parameters = new CompilerParameters();
             parameters.GenerateExecutable = false;
             parameters.OutputAssembly = filename+".dll";
             parameters.ReferencedAssemblies.Add("data.dll");
+
+            if(String.IsNullOrWhiteSpace(code)) {
+                Console.WriteLine("No code.");
+                return;
+            }
+            if(String.IsNullOrWhiteSpace(filename)) {
+                Console.WriteLine("No DLL name.");
+                return;
+            }
 
             CompilerResults cr = codeProvider.CompileAssemblyFromSource(parameters, code);
 
@@ -226,6 +238,7 @@ namespace nocodedb.data.assembly
                         Console.WriteLine( "TempFile " + i.ToString() + ": " + (string)enu.Current );                  
                 }
             }        
+            Console.WriteLine("Compiling Finished");
         
         }
 
