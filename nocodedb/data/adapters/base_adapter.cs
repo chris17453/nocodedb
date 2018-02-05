@@ -16,9 +16,6 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Newtonsoft.Json.Serialization;
 using nocodedb.data.@interface;
 using nocodedb.data.models;
 
@@ -157,11 +154,12 @@ namespace nocodedb.data.adapters
             return String.Join(" AND ", o.ToArray());
         }
 */        
-        private string get_columns(Type T) {
+        private string get_columns(object obj) {
+            Type T=obj.GetType();
             List<string> o = new List<string>();
             foreach (PropertyInfo pi in T.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)){
                 string field_name = pi.Name;
-                object property_value = pi.GetValue(this, null);
+                object property_value = pi.GetValue(obj, null);
                 if (null == property_value) continue;
                 else o.Add(left_field_seperator + field_name + right_field_seperator);
 
@@ -169,11 +167,12 @@ namespace nocodedb.data.adapters
             return String.Join(",", o.ToArray());
         }
 
-        private string get_params(Type T) {
+        private string get_params(object obj) {
+            Type T=obj.GetType();
             List<string> o = new List<string>();
             foreach (PropertyInfo pi in T.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)) {
                 string field_name = pi.Name;
-                object property_value = pi.GetValue(this, null);
+                object property_value = pi.GetValue(obj, null);
 
                 if (null == property_value) continue;
                 else o.Add("@" + field_name);
@@ -181,18 +180,20 @@ namespace nocodedb.data.adapters
             return String.Join(",", o.ToArray());
         }
 
-        private string get_col_param(Type T) {
+        private string get_col_param(object obj) {
+            Type T=obj.GetType();
             List<string> o = new List<string>();
             foreach (PropertyInfo pi in T.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)) {
                 string field_name = pi.Name;
-                object property_value = pi.GetValue(this, null);
+                object property_value = pi.GetValue(obj, null);
                 if (null == property_value) continue;
                 else o.Add(left_field_seperator + field_name + right_field_seperator+"=" + "@" + field_name);
             }
             return String.Join(",", o.ToArray());
         }
 
-        public bool set_property(Type T,string field_name, object value){
+        private bool set_property(object o,string field_name, object value){
+            Type T=o.GetType();
             PropertyInfo pi = T.GetProperty(field_name);
             if (null != pi) {
                 /*if (null != _json) {
@@ -231,20 +232,21 @@ namespace nocodedb.data.adapters
                 }//end if in _json*/
 
                 //normal assignement
-                T.GetProperty(field_name).SetValue(T, value, null);
+                T.GetProperty(field_name).SetValue(o, value, null);
                 return true;
             }
             return false;
         }
 
 
-        public parameters generate_crud_parameters(Type T) {
+        private parameters generate_crud_parameters(object o) {
             parameters param = new parameters();
+            Type T=o.GetType();
             PropertyInfo[] properties = T.GetProperties();
             foreach (PropertyInfo pi in T.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)) {
                 string field_name = pi.Name;
                 //if (field_name == "_table" || field_name == "_pk" || field_name == "_json") continue;              //dont paramaterize the base properties
-                object property_value = pi.GetValue(this, null);
+                object property_value = pi.GetValue(o, null);
                 /*if (null != _json) {
                     bool found = false;
                     foreach (string s in _json) {
@@ -346,3 +348,61 @@ namespace nocodedb.data.adapters
         }
     }//end class
 }//end namespace
+
+
+/* Thoughts on how to impliment this......
+ * 
+ * 
+ * 
+ * 
+// class is un attachted. 100% unique fields. Requires helper class to process.
+// Single
+var t=new ncdb.titan.dbo.titanDWS();
+ db.save  (t);
+ db.load  (t);
+ db.delete(t);
+*db.update(t);
+*db.insert(t);
+
+// class is un attachted. 100% unique fields. Requires helper class to process. more strict... more work...
+// Single
+var t=titan.dbo.titanDWS();
+ db<t>.save  (t);
+ db<t>.load  (t);
+ db<t>.delete(t);
+*db<t>.update(t);
+*db<t>.insert(t);
+
+// uses methods which can break database field uniqueness
+// Single
+var t=titan.dbo.titanDWS();
+ t.save  (t);
+ t.load  (t);
+ t.delete(t);
+*t.update(t);
+*t.insert(t);
+
+// uses methods which can break database field uniqueness, but only 1 field.
+// Single
+var t=titan.dbo.titanDWS();
+ t.db.save  (t);
+ t.db.load  (t);
+ t.db.delete(t);
+*t.db.update(t);
+*t.db.insert(t);
+
+//////////////////////////////////////
+// Single or Multiple
+var t=data_set<titan.dbo.titanDWS>();                 //cannot use VAR unless you load it first.
+ t.save  (single);
+ t.load  (single/multiple);
+ t.delete(single);
+*t.update(single);
+*t.insert(single);
+
+t.curent_item.property
+t[0].property
+foreach(var r in rows) {
+
+}
+*/
