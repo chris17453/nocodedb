@@ -47,6 +47,13 @@ namespace nocodedb.data.adapters
         public virtual data_set sql_query(query_params q){
             throw new NotImplementedException();
         }
+        public virtual fk.fk_objects get_fk_to_table(string connection_string,string database,string table){
+            throw new NotImplementedException();
+        }
+        
+        public virtual fk.fk_objects get_fk_from_table(string connection_string,string database,string table){
+            throw new NotImplementedException();
+        }
         /**************/
 
         [MethodImpl(MethodImplOptions.NoInlining)] 
@@ -346,6 +353,10 @@ namespace nocodedb.data.adapters
         public string generate_update_query() {
             return "";
         }
+
+
+
+
     }//end class
 }//end namespace
 

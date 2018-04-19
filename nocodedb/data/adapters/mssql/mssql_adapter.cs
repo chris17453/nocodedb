@@ -29,6 +29,9 @@ namespace nocodedb.data.adapters{
         public override char right_field_seperator { get { return ']'; } }
 
         public mssql_adapter(){
+
+        //    SqlServerTypes.Utilities.LoadNativeAssemblies(AppDomain.CurrentDomain.BaseDirectory);
+
         }
 
 
@@ -73,7 +76,7 @@ namespace nocodedb.data.adapters{
         public override data_set sql_query(query_params q){
             data_set results=new data_set();
             try{
-                this.log(q,log_type.Info);
+                //this.log(q,log_type.Info);                                                                    //dont need this roes returned not returned and error handle this.
 
                 using (SqlConnection conn = new SqlConnection(q.connection_string)) {
                     conn.Open();
@@ -112,8 +115,8 @@ namespace nocodedb.data.adapters{
 
                     if(q.type==query_types.multiple || q.type== query_types.single || q.type==query_types.sp_single || q.type==query_types.sp_multiple) {
                         reader = command.ExecuteReader(command_behavior);
+                        DataTable schema=reader.GetSchemaTable();
                         if(q.meta) {
-                            DataTable schema=reader.GetSchemaTable();
                             int dbFields = schema.Rows.Count;;
 
                             for (int i = 0; i < dbFields; i++){
@@ -126,7 +129,12 @@ namespace nocodedb.data.adapters{
                             while (reader.Read()) {
                                 row result=new row();
                                 for (int i = 0; i < reader.FieldCount; i++) {
-                                    result.columns.Add(new column_data(reader[i]));
+                                    try{
+                                        result.columns.Add(new column_data(reader[i]));
+                                    }catch (Exception e){
+                                        this.log(q,log_type.Error,e.ToString());
+                                    }
+
                                 }//end field loop
                                 if(q.type==query_types.single || q.type==query_types.sp_single) {                                                                        //only 1 row
                                     results.rows.Add(result);
@@ -153,6 +161,64 @@ namespace nocodedb.data.adapters{
         public override void Dispose(){
             base.Dispose();
         }
-    }
+
+        public override fk.fk_objects get_fk_to_table(string connection_string,string database,string table){
+            // Parameter: @database @table 
+            // Columns    //  fk	//  table	//  schema	//  column	//  fk_table	//  fk_schema	//  fk_column	//  delete_action	//  update_ac
+            string query=
+                                @"SELECT	f.name									AS fk,
+		                                OBJECT_NAME(f.parent_object_id)			AS [table],
+		                                SCHEMA_NAME(f.schema_id)				AS [schema],
+		                                COL_NAME(fc.parent_object_id, 
+				                                    fc.parent_column_id)			AS [column],
+		                                OBJECT_NAME (f.referenced_object_id)	AS [fk_table_name],
+		                                SCHEMA_NAME(o.schema_id)				AS [fk_schema],
+		                                COL_NAME(fc.referenced_object_id, 
+				                                    fc.referenced_column_id)		AS [fk_column_name],
+		                                delete_referential_action_desc,
+		                                update_referential_action_desc
+                                FROM sys.foreign_keys AS f
+                                JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id
+                                JOIN	sys.objects				o  ON f.referenced_object_id = o.object_id
+                                WHERE OBJECT_NAME (f.referenced_object_id) = @table";
+            
+                parameters    p=new parameters();
+                p.add("@table",table);
+                p.add("@database",database);
+                query_params q = new query_params(connection_string, query, p, false, query_types.multiple);
+                data_set res=sql_query(q);
+                fk.fk_objects obj=new fk.fk_objects(res);
+                return obj;
+            }//end function
+
+            public override fk.fk_objects get_fk_from_table(string connection_string,string database,string table){
+            // Parameter: @database @table 
+            // Columns    //  fk	//  table	//  schema	//  column	//  fk_table	//  fk_schema	//  fk_column	//  delete_action	//  update_ac
+                string query=
+                        @"SELECT	f.name AS fk,
+		                        OBJECT_NAME(f.parent_object_id)		AS [table],
+		                        SCHEMA_NAME(f.schema_id)			AS [schema],
+		                        COL_NAME(fc.parent_object_id, 
+				                            fc.parent_column_id)		AS [column],
+		                        OBJECT_NAME (f.referenced_object_id)AS fk_table,
+		                        SCHEMA_NAME(o.schema_id)			AS fk_schema,
+		                        COL_NAME(fc.referenced_object_id, 
+				                            fc.referenced_column_id)	AS fk_column,
+		                        delete_referential_action_desc as  delete_action,
+		                        update_referential_action_desc as update_action
+                        FROM	sys.foreign_keys f 
+                        JOIN	sys.objects				o  ON f.referenced_object_id = o.object_id
+                        JOIN	sys.foreign_key_columns fc ON f.object_id			= fc.constraint_object_id
+                        WHERE	OBJECT_NAME(f.parent_object_id)= @table";
+   
+                parameters    p=new parameters();
+                p.add("@table",table);
+                p.add("@database",database);
+                query_params q = new query_params(connection_string, query, p, false, query_types.multiple);
+                data_set res=sql_query(q);
+                fk.fk_objects obj=new fk.fk_objects(res);
+                return obj;
+            }//end function      
+}
 }
 
