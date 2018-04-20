@@ -43,10 +43,10 @@ namespace nocodedb.data.models{
         public bool        IsPrimaryKey                    { get; set; }
         public bool        IsUniqueKey                     { get; set; }
         public bool        IsForeignKey                    { get; set; }
-        public bool        ForeignKey_name                 { get; set; }
-        public bool        ForeignKey_table                { get; set; }
-        public bool        ForeignKey_schema               { get; set; }
-        public bool        ForeignKey_column               { get; set; }
+        public string      ForeignKey_name                 { get; set; }
+        public string      ForeignKey_table                { get; set; }
+        public string      ForeignKey_schema               { get; set; }
+        public string      ForeignKey_column               { get; set; }
         public int         NumericPrecision                { get; set; }
         public int         NumericScale                    { get; set; }
         public string      ProviderSpecificDataType        { get; set; }       //did we ever get here with other versions of sql server?

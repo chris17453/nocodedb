@@ -40,7 +40,7 @@ namespace nocodedb.data.assembly
 
         public static string map_database(string connection_target,string database){
             StringBuilder tables=new StringBuilder();
-            data_set data=db.fetch_all(connection_target,string.Format("SELECT TABLE_SCHEMA,TABLE_NAME FROM {0}.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' ORDER BY TABLE_NAME,TABLE_SCHEMA",database));
+            data_set data=db.fetch_all(connection_target,string.Format("SELECT top 10 TABLE_SCHEMA,TABLE_NAME FROM {0}.INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='dbo' ORDER BY TABLE_NAME,TABLE_SCHEMA",database));
             tables.AppendLine("using System;");
             tables.AppendLine("using System.Data;");
 
@@ -83,9 +83,11 @@ namespace nocodedb.data.assembly
                 
             o.AppendLine(string.Format("namespace ncdb.schema.{0}.{1}.{2} {{",database,schema,table_name));
 
+            o.AppendLine(string.Format("\t public static class col {{"));
             foreach(column_meta c in columns) {
                 string column_name=safe_name(c.ColumnName);
                 o.AppendLine(string.Format("\t public static class {0} {{",column_name));
+                o.AppendLine(string.Format("\t\t public static class prop {{"));
 
 
 
@@ -108,43 +110,45 @@ namespace nocodedb.data.assembly
                     else                        resolved_value=property_value.ToString();
 
                     switch(resolved_type_name) {
-                        case "Boolean"   : if(property_value.ToString()=="True") o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}=true;" ,resolved_type_name,pi.Name)); 
-                        else                                                     o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}=false;",resolved_type_name,pi.Name));  break;
-                        case "Byte"      : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
-                        case "Char"      : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}='{2}';"                                      ,resolved_type_name,pi.Name,resolved_value)); break;
-                        case "DateTime"  : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;;
-                        case "DBNull"    : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
-                        case "Decimal"   : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
-                        case "Double"    : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
-                        case "Empty"     : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
-                        case "Int16"     : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
-                        case "Int32"     : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;;
-                        case "Int64"     : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
-                        case "Object"    : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
-                        case "SByte"     : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
-                        case "Single"    : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
-                        case "String"    : if(null==property_value){                                                
-                                            o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}=String.Empty;"                              ,resolved_type_name,pi.Name,resolved_value)); break;
-                                            } else {                                                                
-                                            o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}=\"{2}\";"                                   ,resolved_type_name,pi.Name,resolved_value)); break;
-                                            }                                                                       
-                        case "UInt16"    : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
-                        case "UInt32"    : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
-                        case "UInt64"    : o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
+                        case "Boolean"   : if(property_value.ToString()=="True") o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}=true;" ,resolved_type_name,pi.Name)); 
+                        else                                                     o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}=false;",resolved_type_name,pi.Name));  break;
+                        case "Byte"      : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
+                        case "Char"      : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}='{2}';"                                      ,resolved_type_name,pi.Name,resolved_value)); break;
+                        case "DateTime"  : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;;
+                        case "DBNull"    : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
+                        case "Decimal"   : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
+                        case "Double"    : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
+                        case "Empty"     : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
+                        case "Int16"     : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
+                        case "Int32"     : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;;
+                        case "Int64"     : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
+                        case "Object"    : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
+                        case "SByte"     : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
+                        case "Single"    : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
+                        case "String"    : if(null==property_value) {
+                                            o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}=String.Empty;"                              ,resolved_type_name,pi.Name,resolved_value)); break;
+                                           } else {
+                                            o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}=\"{2}\";"                                   ,resolved_type_name,pi.Name,resolved_value)); break;
+                                           }
+                        case "UInt16"    : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
+                        case "UInt32"    : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
+                        case "UInt64"    : o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                        ,resolved_type_name,pi.Name,resolved_value)); break;
                         case "Type"      : if(null==property_value){
-                                            o.AppendLine(string.Format("\t\tpublic static  {0} \t{1}={2};"                                       ,resolved_type_name,pi.Name,resolved_value)); break;
-                                            } else {
-                                            o.AppendLine(string.Format("\t\tpublic static  {0} \t{1} {{ get {{ return typeof({2}); }} }}"        ,resolved_type_name,pi.Name,resolved_value));
-                                            }
-                                            break;
-                        default : o.AppendLine(string.Format("//\t\tpublic static  {0} \t{1};"        ,resolved_type_name,pi.Name,"System.Data.SqlTypes."+property_value)); 
+                                            o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1}={2};"                                       ,resolved_type_name,pi.Name,resolved_value)); break;
+                                           } else {
+                                            o.AppendLine(string.Format("\t\t\tpublic static  {0} \t{1} {{ get {{ return typeof({2}); }} }}"        ,resolved_type_name,pi.Name,resolved_value));
+                                           }
+                                           break;
+                        default : o.AppendLine(string.Format("//\t\t\tpublic static  {0} \t{1};"        ,resolved_type_name,pi.Name,"System.Data.SqlTypes."+property_value)); 
 
                             break;     
                     }
 
                 }
+                o.AppendLine("\t\t}//end properties class");
                 o.AppendLine("\t}//end column class");
             }
+            o.AppendLine("\t}//end colums wrapper ");
             o.AppendLine("}//end namespace");
             return o.ToString();
         }
@@ -198,7 +202,7 @@ namespace nocodedb.data.assembly
             return o.ToString();
         }
 
-        public static void compile_dll (string filename,string code,bool save_source){
+        public static bool compile_dll (string filename,string code,bool save_source){
             Console.WriteLine("Compiling");
             CSharpCodeProvider codeProvider = new CSharpCodeProvider();
             System.CodeDom.Compiler.CompilerParameters parameters = new CompilerParameters();
@@ -207,16 +211,16 @@ namespace nocodedb.data.assembly
             parameters.ReferencedAssemblies.Add("data.dll");
             parameters.ReferencedAssemblies.Add("System.dll");
             parameters.ReferencedAssemblies.Add("System.Data.dll");
-            parameters.ReferencedAssemblies.Add("Microsoft.SqlServer.Types.dll");
+          //  parameters.ReferencedAssemblies.Add("Microsoft.SqlServer.Types.dll");
 
 
             if(String.IsNullOrWhiteSpace(code)) {
                 Console.WriteLine("No code.");
-                return;
+                return false;
             }
             if(String.IsNullOrWhiteSpace(filename)) {
                 Console.WriteLine("No DLL name.");
-                return;
+                return false;
             }
 
             if(save_source) {
@@ -229,7 +233,7 @@ namespace nocodedb.data.assembly
             if( cr.Errors.Count > 0 ) {
                 for( int i=0; i<cr.Output.Count; i++ )  Console.WriteLine( cr.Output[i] );
                 for( int i=0; i<cr.Errors.Count; i++ )  Console.WriteLine( i.ToString() + ": " + cr.Errors[i].ToString() );
-
+                return false;
             } else {
                 // Display information about the compiler's exit code and the generated assembly.
                 Console.WriteLine( "Compiler returned with result code: " + cr.NativeCompilerReturnValue.ToString() );
@@ -250,7 +254,7 @@ namespace nocodedb.data.assembly
                 }
             }        
             Console.WriteLine("Compiling Finished");
-        
+            return true;
         }
 
         public static void write_source(string file_path,string source){ 

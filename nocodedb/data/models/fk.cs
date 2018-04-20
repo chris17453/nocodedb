@@ -16,9 +16,9 @@ using System.Collections.Generic;
 
 namespace nocodedb.data.models{
    public class fk{
-
-        public class fk_object{
+            public class fk_member{
             public string fk	        { get; set; }
+            public string db	        { get; set; }
             public string table	        { get; set; }
             public string schema	    { get; set; }
             public string column	    { get; set; }
@@ -27,8 +27,9 @@ namespace nocodedb.data.models{
             public string fk_column	    { get; set; }
             public string update_action { get; set; }
             public string delete_action { get; set; }
-            public fk_object (row data){
+            public fk_member (row data){
                 fk	         =data["fk"];
+                db	         =data["db"];
                 table	     =data["table"];
                 schema	     =data["schema"];
                 column	     =data["column"];
@@ -40,12 +41,38 @@ namespace nocodedb.data.models{
             }
 
         }
-        public class fk_objects{
-            public List<fk_object> items=new List<fk_object>();
-            public fk_objects(data_set data){
+        public class fk_members: IEnumerator,IEnumerable   {
+            public List<fk_member> items=new List<fk_member>();
+            public int position=-1;
+            public fk_members(data_set data){
                 foreach(row item in data.rows) {
-                    items.Add(new fk_object(item));
+                    items.Add(new fk_member(item));
                 }
+            }
+
+
+            //IEnumerator and IEnumerable require these methods.
+            public IEnumerator GetEnumerator() {
+                return (IEnumerator)this;
+            }
+
+            //IEnumerator
+            public bool MoveNext(){
+                position++;
+                return (position < items.Count);
+            }
+
+            //IEnumerable
+            public void Reset() {
+                position = 0;
+            }
+
+            //IEnumerable
+            public object Current {
+                get { 
+                    if(null==items || position<0) return null;
+                    return items[position];
+                    }
             }
         }
 

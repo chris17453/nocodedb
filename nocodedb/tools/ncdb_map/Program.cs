@@ -45,11 +45,11 @@ namespace ncdb_map{
             if(string.IsNullOrWhiteSpace(conn_str)) {
                 switch(type){
                     case "MSSQL":   using(nocodedb.data.@interface.IData adapter=new nocodedb.data.adapters.mssql_adapter()){ 
-                                        conn_str="System.Data.SqlClient|"+adapter.build_connection_string(host,user,password); 
+                                        conn_str="System.Data.SqlClient|"+adapter.build_connection_string(host,user,password,database); 
                                     }
                                     break;
                     case "MYSQL":   using(nocodedb.data.@interface.IData adapter=new nocodedb.data.adapters.mysql_adapter()){ 
-                                        conn_str="MySql.Data.MysqlClient|"+adapter.build_connection_string(host,user,password); 
+                                        conn_str="MySql.Data.MysqlClient|"+adapter.build_connection_string(host,user,password,database); 
                                     }
                                     break;
                     default:    Console.WriteLine("Invalid Database Type."); 
@@ -68,7 +68,9 @@ namespace ncdb_map{
                 output_path+=@"\ncdb."+database; 
                 output_path=output_path.Replace(@"\\",@"\");
                 }
-            nocodedb.data.assembly.generator.compile_dll(output_path,raw_code,save_source);
+            if(!nocodedb.data.assembly.generator.compile_dll(output_path,raw_code,save_source)) {
+                Console.WriteLine("Build Failed");
+            }
 
             Console.ReadKey();
         }

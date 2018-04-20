@@ -16,12 +16,34 @@ using System.Collections.Generic;
 
 namespace nocodedb.data.models{
     public class data_set: IEnumerator,IEnumerable   {
-        public List<column_meta> columns        { get; set; }              //column data  (name, type etc)
-        public List<row>         rows           { get; set; }              //for multiples
-        public int               affected_rows  { get; set; }              //for nonquery
-        public column_data       scalar_results { get; set; }              //for nonquery
-        int position = -1;
+        public  List<column_meta> columns        { get; set; }              //column data  (name, type etc)
+        public  List<row>         rows           { get; set; }              //for multiples
+        private fk.members        _fk_from       { get; set; }              //foreign keys form this table
+        public  fk.members        fk_from        { get{ return this._fk_from; } set { this._fk_from=value;  update_column_fk(); } }              //foreign keys form this table
+        public  fk.members        fk_to          { get; set; }              //foreign keys TO this table
+        public  int               affected_rows  { get; set; }              //for nonquery
+        public  column_data       scalar_results { get; set; }              //for nonquery
+        int     position = -1;
 
+        public void update_column_fk(){
+            if(null==fk_from ) return;
+            foreach(fk.member fk in fk_from) {
+                column_meta results=columns.Find(x=>
+                x.BaseCatalogName==fk.db    && 
+                x.BaseTableName==fk.table   && 
+                x.BaseSchemaName==fk.schema && 
+                x.BaseColumnName==fk.column);
+                if(null!=results){
+                    results.IsForeignKey     =true;
+                    results.ForeignKey_name  =fk.fk;
+                    results.ForeignKey_table =fk.fk_table;
+                    results.ForeignKey_schema=fk.fk_schema;
+                    results.ForeignKey_column=fk.fk_column;
+                }
+            }
+
+
+        }
 
         public row this[int key]        {
             get {
@@ -66,7 +88,8 @@ namespace nocodedb.data.models{
         }
 
 
-        public int  Count          { get {
+        public int  Count          { 
+            get {
                 if(null==rows) return 0;
                 if(null!=rows) return rows.Count;
                 return 0;
@@ -97,8 +120,48 @@ namespace nocodedb.data.models{
         //IEnumerable
         public object Current
         {
-            get { return rows[position];}
+            get { 
+                if(null==rows || position<0) return null;
+                return rows[position];
+                }
         }
 
     }
 }
+/*
+D  = DEFAULT (constraint or stand-alone)
+F = FOREIGN KEY constraint
+PK = PRIMARY KEY constraint
+UQ = UNIQUE constraint
+*/
+/*
+AF = Aggregate function (CLR)
+C = CHECK constraint
+D = DEFAULT (constraint or stand-alone)
+F = FOREIGN KEY constraint
+FN = SQL scalar function
+FS = Assembly (CLR) scalar-function
+FT = Assembly (CLR) table-valued function
+IF = SQL inline table-valued function
+IT = Internal table
+P = SQL Stored Procedure
+PC = Assembly (CLR) stored-procedure
+PG = Plan guide
+PK = PRIMARY KEY constraint
+R = Rule (old-style, stand-alone)
+RF = Replication-filter-procedure
+S = System base table
+SN = Synonym
+SO = Sequence object
+U = Table (user-defined)
+V = View
+SQ = Service queue
+TA = Assembly (CLR) DML trigger
+TF = SQL table-valued-function
+TR = SQL DML trigger
+TT = Table type
+UQ = UNIQUE constraint
+X = Extended stored procedure
+ET = External Table 
+     
+     */

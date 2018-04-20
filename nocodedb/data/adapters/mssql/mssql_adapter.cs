@@ -35,11 +35,12 @@ namespace nocodedb.data.adapters{
         }
 
 
-        public override string build_connection_string(string host, string user, string password) {
+        public override string build_connection_string(string host, string user, string password,string database) {
             SqlConnectionStringBuilder builder =  new SqlConnectionStringBuilder();  
             builder.UserID      =user;
             builder.DataSource  =host;
             builder.Password    =password;
+            if(!String.IsNullOrWhiteSpace(database)) builder.InitialCatalog=database;
             //builder["integrated Security"] = true;  
             //builder["Initial Catalog"] = "AdventureWorks;NewValue=Bad";  
             return builder.ConnectionString;
@@ -115,8 +116,8 @@ namespace nocodedb.data.adapters{
 
                     if(q.type==query_types.multiple || q.type== query_types.single || q.type==query_types.sp_single || q.type==query_types.sp_multiple) {
                         reader = command.ExecuteReader(command_behavior);
-                        DataTable schema=reader.GetSchemaTable();
                         if(q.meta) {
+                            DataTable schema=reader.GetSchemaTable();
                             int dbFields = schema.Rows.Count;;
 
                             for (int i = 0; i < dbFields; i++){
@@ -128,6 +129,7 @@ namespace nocodedb.data.adapters{
                             this.log(q,log_type.Info,"Rows Returned");
                             while (reader.Read()) {
                                 row result=new row();
+                                result.meta=results.columns;
                                 for (int i = 0; i < reader.FieldCount; i++) {
                                     try{
                                         result.columns.Add(new column_data(reader[i]));
@@ -162,63 +164,71 @@ namespace nocodedb.data.adapters{
             base.Dispose();
         }
 
-        public override fk.fk_objects get_fk_to_table(string connection_string,string database,string table){
+        public override fk.fk_member get_fk_to_table(string connection_string,string database,string table,string schema){
             // Parameter: @database @table 
             // Columns    //  fk	//  table	//  schema	//  column	//  fk_table	//  fk_schema	//  fk_column	//  delete_action	//  update_ac
             string query=
-                                @"SELECT	f.name									AS fk,
+                               @"SELECT	f.name									AS fk,
 		                                OBJECT_NAME(f.parent_object_id)			AS [table],
 		                                SCHEMA_NAME(f.schema_id)				AS [schema],
 		                                COL_NAME(fc.parent_object_id, 
-				                                    fc.parent_column_id)			AS [column],
-		                                OBJECT_NAME (f.referenced_object_id)	AS [fk_table_name],
+				                                    fc.parent_column_id)		AS [column],
+		                                OBJECT_NAME (f.referenced_object_id)	AS [fk_table],
 		                                SCHEMA_NAME(o.schema_id)				AS [fk_schema],
 		                                COL_NAME(fc.referenced_object_id, 
-				                                    fc.referenced_column_id)		AS [fk_column_name],
-		                                delete_referential_action_desc,
-		                                update_referential_action_desc
+				                                    fc.referenced_column_id)	AS [fk_column],
+                                        delete_referential_action_desc          AS [delete_action],
+                                        update_referential_action_desc          AS [update_action],
+                                        DB_NAME()                               AS db
                                 FROM sys.foreign_keys AS f
                                 JOIN sys.foreign_key_columns AS fc ON f.object_id = fc.constraint_object_id
                                 JOIN	sys.objects				o  ON f.referenced_object_id = o.object_id
-                                WHERE OBJECT_NAME (f.referenced_object_id) = @table";
+                                WHERE OBJECT_NAME (f.referenced_object_id) = @table
+		                        AND     SCHEMA_NAME(o.schema_id)=@schema
+                                AND     DB_NAME()=@database";
             
                 parameters    p=new parameters();
-                p.add("@table",table);
                 p.add("@database",database);
+                p.add("@table",table);
+                p.add("@schema",schema);
                 query_params q = new query_params(connection_string, query, p, false, query_types.multiple);
                 data_set res=sql_query(q);
-                fk.fk_objects obj=new fk.fk_objects(res);
+                fk.fk_member obj=new fk.fk_member(res);
                 return obj;
             }//end function
 
-            public override fk.fk_objects get_fk_from_table(string connection_string,string database,string table){
+            public override fk.fk_member get_fk_from_table(string connection_string,string database,string table,string schema){
             // Parameter: @database @table 
-            // Columns    //  fk	//  table	//  schema	//  column	//  fk_table	//  fk_schema	//  fk_column	//  delete_action	//  update_ac
+            // Columns    //  fk	//  db   //  table	//  schema	//  column	//  fk_table	//  fk_schema	//  fk_column	//  delete_action	//  update_ac
                 string query=
-                        @"SELECT	f.name AS fk,
-		                        OBJECT_NAME(f.parent_object_id)		AS [table],
-		                        SCHEMA_NAME(f.schema_id)			AS [schema],
-		                        COL_NAME(fc.parent_object_id, 
-				                            fc.parent_column_id)		AS [column],
-		                        OBJECT_NAME (f.referenced_object_id)AS fk_table,
-		                        SCHEMA_NAME(o.schema_id)			AS fk_schema,
-		                        COL_NAME(fc.referenced_object_id, 
-				                            fc.referenced_column_id)	AS fk_column,
-		                        delete_referential_action_desc as  delete_action,
-		                        update_referential_action_desc as update_action
-                        FROM	sys.foreign_keys f 
-                        JOIN	sys.objects				o  ON f.referenced_object_id = o.object_id
-                        JOIN	sys.foreign_key_columns fc ON f.object_id			= fc.constraint_object_id
-                        WHERE	OBJECT_NAME(f.parent_object_id)= @table";
+                        @"SELECT        f.name										AS fk,
+                                        OBJECT_NAME(f.parent_object_id)             AS [table],
+                                        SCHEMA_NAME(f.schema_id)                    AS [schema],
+                                        COL_NAME(fc.parent_object_id,
+                                                            fc.parent_column_id)    AS [column],
+                                        OBJECT_NAME (f.referenced_object_id)		AS [fk_table],
+                                        SCHEMA_NAME(o.schema_id)                    AS [fk_schema],
+                                        COL_NAME(fc.referenced_object_id,
+                                                fc.referenced_column_id)            AS [fk_column],
+                                        delete_referential_action_desc              AS [delete_action],
+                                        update_referential_action_desc              AS [update_action],
+                                        DB_NAME()                                   AS db
+                        FROM	sys.foreign_keys f
+                        JOIN	sys.foreign_key_columns fc ON f.object_id = fc.constraint_object_id
+                        JOIN    sys.objects             o  ON f.referenced_object_id = o.object_id
+                        WHERE	OBJECT_NAME (f.parent_object_id) = @table
+                        AND     SCHEMA_NAME(o.schema_id)=@schema
+                        AND     DB_NAME()=@database";
    
                 parameters    p=new parameters();
-                p.add("@table",table);
                 p.add("@database",database);
-                query_params q = new query_params(connection_string, query, p, false, query_types.multiple);
+                p.add("@table",table);
+                p.add("@schema",schema);
+                query_params q = new query_params(connection_string, query, p, true, query_types.multiple);
                 data_set res=sql_query(q);
-                fk.fk_objects obj=new fk.fk_objects(res);
+                 fk.fk_member obj=new fk.fk_member(res);
                 return obj;
             }//end function      
-}
+    }
 }
 
