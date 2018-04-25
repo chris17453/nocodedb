@@ -19,8 +19,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{02DA119B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ncdb_map", "tools\ncdb_map\ncdb_map.csproj", "{5AB288AE-3F39-4CA5-9920-0A582137968A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bin", "bin", "{DD4F50C5-FBBA-4419-8B9C-D5845BA54BEE}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

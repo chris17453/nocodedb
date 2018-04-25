@@ -35,7 +35,7 @@ namespace nocodedb.data.models{
         }
         public override string ToString()
         {
-            return string.Format("[query_params: connection_string={0}, query={1}, parameters={2}, meta={3}, type={4}, message={5}, log_type={6}, function={7}]", connection_string, query, parameters, meta, type, message, log_type, function);
+            return string.Format("[query_params: connection_string={0}, query={1}, parameters=[{2}], meta={3}, type={4}, message={5}, log_type={6}, function={7}]", connection_string, query, parameters.ToString(),meta, type, message, log_type, function);
         }
     }
 }

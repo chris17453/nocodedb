@@ -11,19 +11,11 @@
     github : https://github.com/chris17453
 **********************************************/
 using System;
-using System.Collections;
 using System.Configuration;
-using System.Text;
-using System.Text.RegularExpressions;
-using nocodedb.data.@interface;
 using nocodedb.data.models;
 
 
-using System.CodeDom.Compiler;
-using System.Diagnostics;
-using Microsoft.CSharp;
-using System.Collections.Generic;
-using System.Reflection;
+using nocodedb.data.@interface;
 
 namespace nocodedb.data{
 
@@ -109,8 +101,6 @@ namespace nocodedb.data{
         static void HandleEventHandler(object sender, query_params q) {
             log.write("data",q.log_type,q.ToString());
         }
-
-
 
     }
 }

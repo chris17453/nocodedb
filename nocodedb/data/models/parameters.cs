@@ -13,6 +13,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace nocodedb.data.models{
     public class parameter {
@@ -104,6 +105,14 @@ namespace nocodedb.data.models{
         public parameters add(string name,object parameter) {
             items.Add(new parameter(name ,parameter));
             return this;
+        }
+        public override string ToString(){
+            StringBuilder sb=new StringBuilder();
+            foreach(parameter item in items){
+                sb.Append("@"+item.key+"='"+item.value+"'; ");
+            }
+
+            return sb.ToString();
         }
     }
 }
