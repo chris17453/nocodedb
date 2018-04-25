@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{3C364135-137A-466F-A206-54E18625DE58}</ProjectGuid>
@@ -7,7 +7,8 @@
     <RootNamespace>ui</RootNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType></DebugType>
+    <DebugType>
+    </DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
@@ -72,6 +73,7 @@
     <Compile Include="webAPI\controllers\db_controller.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
     <None Include="index.html" />
     <None Include="media\css\bootstrap.min.css" />
@@ -526,11 +528,7 @@
     <None Include="media\ssl\root.cer" />
     <None Include="media\ssl\root.key" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="webAPI\" />
-    <Folder Include="webAPI\controllers\" />
-    <Folder Include="webAPI\models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\package\models.csproj">
       <Project>{4DACE0EC-B0F7-48FD-A5A2-57E11D0B4B02}</Project>

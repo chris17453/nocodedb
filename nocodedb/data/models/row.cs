@@ -39,7 +39,7 @@ namespace nocodedb.data.models{
             if(null!=meta) {
                 foreach(column_meta c  in meta) {
                     if(c.ColumnName==key) {
-                        if(0>=c.ColumnOrdinal && columns.Count<=c.ColumnOrdinal) {
+                        if(0<=c.ColumnOrdinal && columns.Count>c.ColumnOrdinal) {
                             return columns[c.ColumnOrdinal];
                         }
                     }
@@ -71,7 +71,7 @@ namespace nocodedb.data.models{
             if(null!=meta) {
                 foreach(column_meta c  in meta) {
                     if(c.ColumnName==key) {
-                        if(0>=c.ColumnOrdinal && columns.Count<=c.ColumnOrdinal) {
+                        if(0<=c.ColumnOrdinal && columns.Count>c.ColumnOrdinal) {
                             columns[c.ColumnOrdinal]=value;
                         }
                     }
@@ -80,7 +80,7 @@ namespace nocodedb.data.models{
         }
 
         private void set_data(int index, column_data value){
-            if(0>=index && columns.Count<=index) {
+            if(0<=index && columns.Count>index) {
                 columns[index]=value;
             }
         }

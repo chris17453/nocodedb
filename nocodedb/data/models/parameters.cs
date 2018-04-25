@@ -13,8 +13,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+<<<<<<< HEAD
 using System.Text;
 
+=======
+using System.Text;
+
+>>>>>>> f5eb29234c4aa51723ab66bed2da5dbb5ed194bd
 namespace nocodedb.data.models{
     public class parameter {
         public string key  { get; set; }
@@ -25,6 +30,12 @@ namespace nocodedb.data.models{
             this.key=key;
             this.value=value;
         }
+        public override string ToString()
+        {
+            if(null==key) return "INVALID PARAMETER";
+            return String.Format("{0}:{1}",key,value);
+        }
+
 
     }
     public class parameters : IEnumerator,IEnumerable   {
@@ -51,7 +62,11 @@ namespace nocodedb.data.models{
         //IEnumerable
         public object Current
         {
-            get { return items[position];}
+            get { 
+                if(null==items) return null; 
+                if(position<items.Count) return items[position];
+                return null;
+            }
         }
 
         public string[] Keys { 
@@ -102,17 +117,23 @@ namespace nocodedb.data.models{
         public parameters()
         {
         }
+
         public parameters add(string name,object parameter) {
             items.Add(new parameter(name ,parameter));
             return this;
         }
-        public override string ToString(){
-            StringBuilder sb=new StringBuilder();
-            foreach(parameter item in items){
-                sb.Append("@"+item.key+"='"+item.value+"'; ");
-            }
 
-            return sb.ToString();
+        public override string ToString(){
+            
+            if(items.Count==0) {
+                return "No parameters";
+            }
+            List<string> parameters =new List<String>();
+                parameters.Add(String.Format("Parameters: Count {0} ",items.Count));
+            foreach(parameter p in items){
+                parameters.Add(p.ToString());
+            }
+            return String.Join(",",parameters.ToArray());
         }
     }
 }

@@ -33,11 +33,12 @@ namespace nocodedb.data.adapters{
         }
 
 
-        public override string build_connection_string(string host, string user, string password) {
+        public override string build_connection_string(string host, string user, string password,string database) {
             MySqlConnectionStringBuilder builder =  new MySqlConnectionStringBuilder();  
             builder.UserID      =user;
             builder.Server      =host;
             builder.Password    =password;
+            if(!string.IsNullOrWhiteSpace(database)) builder.Database    =database;
             return builder.ConnectionString;
         }
 

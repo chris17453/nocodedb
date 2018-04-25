@@ -36,7 +36,7 @@ namespace nocodedb.data.adapters
 
         /**************/
         //This is what you really need to impliment.
-        public virtual string build_connection_string(string host, string user, string password){
+        public virtual string build_connection_string(string host, string user, string password,string database){
             throw new NotImplementedException();
         }
 
@@ -45,6 +45,13 @@ namespace nocodedb.data.adapters
         }
 
         public virtual data_set sql_query(query_params q){
+            throw new NotImplementedException();
+        }
+        public virtual fk.fk_objects get_fk_to_table(string connection_string,string database,string table,string schema){
+            throw new NotImplementedException();
+        }
+        
+        public virtual fk.fk_objects get_fk_from_table(string connection_string,string database,string table,string schema){
             throw new NotImplementedException();
         }
         /**************/
@@ -86,7 +93,12 @@ namespace nocodedb.data.adapters
 
         public data_set fetch_all(string connection_string, string query, parameters parameters = null, bool meta = false) {
             query_params q = new query_params(connection_string, query, parameters, meta, query_types.multiple);
-            return this.sql_query(q);
+            data_set results=this.sql_query(q);
+            if(meta) {
+                results.fk_from=get_fk_from_table(q.connection_string,results.columns[0].BaseCatalogName,results.columns[0].BaseTableName,results.columns[0].BaseSchemaName);
+               // results.fk_to  =get_fk_to_table  (q.connection_string,results.columns[0].BaseCatalogName,results.columns[0].BaseTableName,results.columns[0].BaseSchemaName);
+            }
+            return results;
         }
 
         public data_set sp_fetch(string connection_string, string query, parameters parameters = null, bool meta = false)  {
@@ -346,6 +358,10 @@ namespace nocodedb.data.adapters
         public string generate_update_query() {
             return "";
         }
+
+
+
+
     }//end class
 }//end namespace
 
