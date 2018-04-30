@@ -181,6 +181,7 @@ namespace nocodedb.data {
             if (null!=res) {
                 foreach (String field_name in res.Keys) {
                     this.set_property(field_name,res[field_name]);
+                    //this.set_property(field_name,res.columns[field_name]);
                 }//loop through all keys
                 return true;
             }//if it exist

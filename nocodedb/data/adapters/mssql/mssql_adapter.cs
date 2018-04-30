@@ -65,7 +65,7 @@ namespace nocodedb.data.adapters{
                     if(((string)parameter.key)[0]!='@') {
                         parameterCollection.Add(new SqlParameter("@" + parameter.key, parameter.value));
                     } else {
-                        parameterCollection.Add(new SqlParameter((string)parameter.key, (string)parameter.value));
+                        parameterCollection.Add(new SqlParameter((string)parameter.key, parameter.value));
                     }
                 }
             }catch (Exception e){
@@ -129,10 +129,10 @@ namespace nocodedb.data.adapters{
                             this.log(q,log_type.Info,"Rows Returned");
                             while (reader.Read()) {
                                 row result=new row();
-                                result.meta=results.columns;
+                                result.AddMeta(results.columns);
                                 for (int i = 0; i < reader.FieldCount; i++) {
                                     try{
-                                        result.columns.Add(new column_data(reader[i]));
+                                        result.Add(new column_data(reader[i]));
                                     }catch (Exception e){
                                         this.log(q,log_type.Error,e.ToString());
                                     }
@@ -164,7 +164,7 @@ namespace nocodedb.data.adapters{
             base.Dispose();
         }
 
-        public override fk.fk_member get_fk_to_table(string connection_string,string database,string table,string schema){
+        public override fk.fk_members get_fk_to_table(string connection_string,string database,string table,string schema){
             // Parameter: @database @table 
             // Columns    //  fk	//  table	//  schema	//  column	//  fk_table	//  fk_schema	//  fk_column	//  delete_action	//  update_ac
             string query=
@@ -193,11 +193,11 @@ namespace nocodedb.data.adapters{
                 p.add("@schema",schema);
                 query_params q = new query_params(connection_string, query, p, false, query_types.multiple);
                 data_set res=sql_query(q);
-                fk.fk_member obj=new fk.fk_member(res);
+                fk.fk_members obj=new fk.fk_members(res);
                 return obj;
             }//end function
 
-            public override fk.fk_member get_fk_from_table(string connection_string,string database,string table,string schema){
+            public override fk.fk_members get_fk_from_table(string connection_string,string database,string table,string schema){
             // Parameter: @database @table 
             // Columns    //  fk	//  db   //  table	//  schema	//  column	//  fk_table	//  fk_schema	//  fk_column	//  delete_action	//  update_ac
                 string query=
@@ -226,7 +226,7 @@ namespace nocodedb.data.adapters{
                 p.add("@schema",schema);
                 query_params q = new query_params(connection_string, query, p, true, query_types.multiple);
                 data_set res=sql_query(q);
-                 fk.fk_member obj=new fk.fk_member(res);
+                 fk.fk_members obj=new fk.fk_members(res);
                 return obj;
             }//end function      
     }

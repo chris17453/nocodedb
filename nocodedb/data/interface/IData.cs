@@ -29,8 +29,8 @@ namespace nocodedb.data.@interface{
         string        extract_query          (query_params q);                                                                            //returns a computed SQL String value of the preformed query
         new void      Dispose                ();
 
-        fk.fk_objects get_fk_to_table        (string connection_string,string database,string table,string schema);
-        fk.fk_objects get_fk_from_table      (string connection_string,string database,string table,string schema);
+        fk.fk_members get_fk_to_table        (string connection_string,string database,string table,string schema);
+        fk.fk_members get_fk_from_table      (string connection_string,string database,string table,string schema);
      
 	}
   }

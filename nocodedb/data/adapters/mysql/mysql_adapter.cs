@@ -127,7 +127,7 @@ namespace nocodedb.data.adapters{
                             while (reader.Read()) {
                                 row result=new row();
                                 for (int i = 0; i < reader.FieldCount; i++) {
-                                    result.columns.Add(new column_data(reader[i]));
+                                    result.Add(new column_data(reader[i]));
                                 }//end field loop
                                 if(q.type==query_types.single || q.type==query_types.sp_single) {                                                                        //only 1 row
                                     results.rows.Add(result);

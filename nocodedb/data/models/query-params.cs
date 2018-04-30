@@ -12,6 +12,7 @@
 **********************************************/
 using System;
 using System.Collections;
+using System.Text;
 
 namespace nocodedb.data.models{
     public class query_params:EventArgs{
@@ -33,9 +34,48 @@ namespace nocodedb.data.models{
                 this.meta              =meta;
                 this.type              =type;
         }
-        public override string ToString()
-        {
-            return string.Format("[query_params: connection_string={0}, query={1}, parameters=[{2}], meta={3}, type={4}, message={5}, log_type={6}, function={7}]", connection_string, query, parameters.ToString(),meta, type, message, log_type, function);
+        public override string ToString(){
+            //This is temporary.... part of the conversion from nocodedb....
+
+            StringBuilder o=new StringBuilder();
+            if(!String.IsNullOrWhiteSpace(connection_string)) {
+                o.Append(string.Format("connection_string={0}",connection_string));
+            } else { 
+                o.Append(string.Format("connection_string={0}","INVALID"));
+            }
+            if(!String.IsNullOrWhiteSpace(query)){
+                o.Append(string.Format("query={0}",query));
+
+            } else { 
+                o.Append(string.Format("query={0}","INVALID"));
+            }
+            if(null!=meta){
+                o.Append(string.Format("meta={0}",meta.ToString()));
+            } else { 
+                o.Append(string.Format("meta={0}","INVALID"));
+            }
+            if(null!=type){
+                o.Append(string.Format("type={0}",type.ToString()));
+            } else { 
+                o.Append(string.Format("type={0}","INVALID"));
+            }
+            if(!String.IsNullOrWhiteSpace(message )){
+                o.Append(string.Format("message={0}",message));
+            } else { 
+                o.Append(string.Format("message={0}","INVALID"));
+            }
+            if(null!=log_type){
+                o.Append(string.Format("log_type={0}",log_type.ToString()));
+            } else { 
+                o.Append(string.Format("log_type={0}","INVALID"));
+            }
+            if(!String.IsNullOrWhiteSpace(function)){
+                o.Append(string.Format("function={0}",function));
+            } else { 
+                o.Append(string.Format("function={0}","INVALID"));
+            }
+
+            return o.ToString();
         }
     }
 }

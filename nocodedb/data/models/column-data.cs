@@ -11,17 +11,22 @@
     github : https://github.com/chris17453
 **********************************************/
 using System;
+using System.Runtime.Serialization;
 using System.Web.Script.Serialization;
 
 namespace nocodedb.data.models{
-    public class column_data{
-        public object value   { get; set; }
-        [ScriptIgnore]
-        public Type   type    { get { if(null!=value) return value.GetType(); return null; } }
+    public class column_data:ISerializable{
+        private object value   { get; set; }
+
         public column_data() {
         }
         public column_data(object column_value) {
             this.value = column_value;
+        }
+        public Type   type()    { 
+            if(null!=value) 
+                return value.GetType(); 
+            return null; 
         }
 
         public static implicit operator System.Type(column_data instance) {
@@ -100,32 +105,29 @@ namespace nocodedb.data.models{
         public override string ToString() {
             return string.Format("{0}", value);
         }
+
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("value",value);
+        }
         //public explicit operator // override object.Equals
-         
-        public override bool Equals(object obj)
-        {
-            //       
-            // See the full list of guidelines at
-            //   http://go.microsoft.com/fwlink/?LinkID=85237  
-            // and also the guidance for operator== at
-            //   http://go.microsoft.com/fwlink/?LinkId=85238
-            //
+          
+         public override bool Equals(object obj)
+         {
+             if (obj == null || GetType() != obj.GetType()) {
+                 return false;
+             }
 
-            if (obj == null || GetType() != obj.GetType()) {
+             if(this.value.ToString()==obj.ToString()) {
+                return true;
+             }
                 return false;
-            }
 
-            // TODO: write your implementation of Equals() here
-            throw new NotImplementedException();
-            return base.Equals(obj);
-        }
+         }
 
-        // override object.GetHashCode
-        public override int GetHashCode()
-        {
-            // TODO: write your implementation of GetHashCode() here
-            throw new NotImplementedException();
-            return base.GetHashCode();
-        }
+         // override object.GetHashCode
+         public override int GetHashCode() {
+            return value.GetHashCode();
+         }
     }
 }

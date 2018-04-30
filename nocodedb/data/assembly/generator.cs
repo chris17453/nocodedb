@@ -45,7 +45,7 @@ namespace nocodedb.data.assembly
             tables.AppendLine("using System.Data;");
 
             foreach(row r in  data.rows){
-                string source_file= map_table(connection_target,database,r[0].ToString(),r[1].value.ToString());
+                string source_file= map_table(connection_target,database,r[0].ToString(),r[1].ToString());
                 tables.AppendLine(source_file);
      //           Console.ReadKey();
             }

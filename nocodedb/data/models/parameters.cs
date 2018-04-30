@@ -13,13 +13,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-<<<<<<< HEAD
 using System.Text;
 
-=======
-using System.Text;
-
->>>>>>> f5eb29234c4aa51723ab66bed2da5dbb5ed194bd
 namespace nocodedb.data.models{
     public class parameter {
         public string key  { get; set; }
@@ -35,9 +30,8 @@ namespace nocodedb.data.models{
             if(null==key) return "INVALID PARAMETER";
             return String.Format("{0}:{1}",key,value);
         }
-
-
     }
+
     public class parameters : IEnumerator,IEnumerable   {
         private List<parameter> items=new List<parameter>();
         int position = -1;
@@ -51,7 +45,7 @@ namespace nocodedb.data.models{
         //IEnumerator
         public bool MoveNext(){
             position++;
-            return (position < items.Count);
+            return (position < items.Count && position>=0);
         }
 
         //IEnumerable
@@ -64,7 +58,7 @@ namespace nocodedb.data.models{
         {
             get { 
                 if(null==items) return null; 
-                if(position<items.Count) return items[position];
+                if(position<items.Count && position>=0) return items[position];
                 return null;
             }
         }
