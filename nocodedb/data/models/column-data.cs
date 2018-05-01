@@ -16,7 +16,7 @@ using System.Web.Script.Serialization;
 
 namespace nocodedb.data.models{
     public class column_data:ISerializable{
-        private object value   { get; set; }
+        public object value   { get; set; }
 
         public column_data() {
         }
@@ -29,6 +29,8 @@ namespace nocodedb.data.models{
             return null; 
         }
 
+
+
         public static implicit operator System.Type(column_data instance) {
             if(null==instance) return null;
             return (System.Type)instance.value;
@@ -39,7 +41,7 @@ namespace nocodedb.data.models{
         }
         public static implicit operator System.Boolean(column_data instance) {
             if(null==instance) return false;
-            return (System.Boolean)instance.value;
+            return true;
         }
         public static implicit operator System.Byte(column_data instance) {
             if(null==instance) return 0;
@@ -130,4 +132,9 @@ namespace nocodedb.data.models{
             return value.GetHashCode();
          }
     }
+
+
+
+
+
 }

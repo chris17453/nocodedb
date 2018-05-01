@@ -123,17 +123,29 @@ namespace nocodedb.data.adapters{
                         }
 
                         if (reader.HasRows) {
+                            bool first_row=true;
                             this.log(q,log_type.Info,"Rows Returned");
                             while (reader.Read()) {
-                                row result=new row();
-                                for (int i = 0; i < reader.FieldCount; i++) {
-                                    result.Add(new column_data(reader[i]));
-                                }//end field loop
+                                //we dont want to pull the extra meta Q
+                                if(first_row){
+                                    for(int a=0;a<reader.FieldCount;a++) {
+                                        results.columns.Add(new column_meta(a,reader.GetName(a),reader[a].GetType())); 
+                                    }
+                                }
+                                first_row=false;
+                            }
+                            row result=new row(results.columns);
+                            for (int i = 0; i < reader.FieldCount; i++) {
+                                try{
+                                    result.Add(reader.GetName(i),reader[i]);
+                                }catch (Exception e){
+                                    this.log(q,log_type.Error,e.ToString());
+                                }
                                 if(q.type==query_types.single || q.type==query_types.sp_single) {                                                                        //only 1 row
-                                    results.rows.Add(result);
+                                    results.Add(result);
                                     break;
                                 } else {
-                                    results.rows.Add(result);
+                                    results.Add(result);
                                 }
                             }//end while
                         }//end if reader

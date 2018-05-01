@@ -16,16 +16,22 @@ using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace nocodedb.data.models{
-    [JsonObject(MemberSerialization.OptIn)]
-    public class data_set{
+
+    //json.net igores everything on a class that extends ienumerable... a custom class is required for conversion
+    public class data_set:List<row>{
+        [JsonProperty]
         public  List<column_meta>   columns        { get; set; }              //column data  (name, type etc)
-        public  rows                rows           { get; set; }              //for multiples
+
         private fk.fk_members       _fk_from       { get; set; }              //foreign keys form this table
+        [JsonIgnore]
         public  fk.fk_members       fk_from        { get{ return this._fk_from; } set { this._fk_from=value;  update_column_fk(); } }              //foreign keys form this table
+        [JsonIgnore]
         public  fk.fk_members       fk_to          { get; set; }              //foreign keys TO this table
+        [JsonIgnore]
         public  int                 affected_rows  { get; set; }              //for nonquery
+        [JsonIgnore]
         public  column_data         scalar_results { get; set; }              //for nonquery
-        int     position = -1;
+  //      int     position = -1;
 
         public void update_column_fk(){
             if(null==fk_from ) return;
@@ -45,6 +51,8 @@ namespace nocodedb.data.models{
             }
         }
 
+
+        [JsonIgnore]
         public string[] Keys { 
             get {
                 if(null==columns|| columns.Count==0) return null;
@@ -53,35 +61,41 @@ namespace nocodedb.data.models{
                 return _Keys;
             } 
         }
-        
-        public row this[int key]        {
-            get {
-                return rows[key];
+
+        public bool ContainsKey(string key){
+            foreach(column_meta c in columns) {
+                if(c.ColumnName==key) return true;
             }
-            set  {
-                rows[key]=value;
-            }
+            return false;
         }
-        public object this[string key]        {
+
+        [JsonIgnore]
+        public column_data this[int index,string key]{
             get { 
-                row c=(row)rows.Current;
-                if(c!=null) {
+                if(null==columns) return null;
+
+                if(index<=this.Count && index>=0 ) {
+                    return this[index][key];
                 }
                 return null;
             }
         }
-            
 
-        public int Count  { get { return rows.Count; } }
-
-
-        public data_set(){
-            rows=new rows();
-            columns=new List<column_meta>();
+        [JsonIgnore]
+        public column_data this[int index,int index2]{
+            get { 
+                if(index<=this.Count && index>=0 ) {
+                    if(index2<=this[index].Count && index2>=0 ) {
+                        return new column_data(this[index][index2]);
+                    }
+                }
+                return null;
+            }
         }
 
-      
-
+        public data_set(){
+            columns=new List<column_meta>();
+        }
     }
 }
 /*

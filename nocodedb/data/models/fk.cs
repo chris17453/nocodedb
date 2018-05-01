@@ -28,7 +28,7 @@ namespace nocodedb.data.models{
             public string update_action { get; set; }
             public string delete_action { get; set; }
             public fk_member (row data){
-                fk	         =data["fk"];
+              /*  fk	         =data["fk"];
                 db	         =data["db"];
                 table	     =data["table"];
                 schema	     =data["schema"];
@@ -37,7 +37,7 @@ namespace nocodedb.data.models{
                 fk_schema    =data["fk_schema"];
                 fk_column    =data["fk_column"];
                 update_action=data["update_action"];
-                delete_action=data["delete_action"];
+                delete_action=data["delete_action"];*/
             }
 
         }
@@ -45,7 +45,7 @@ namespace nocodedb.data.models{
             public List<fk_member> items=new List<fk_member>();
             public int position=-1;
             public fk_members(data_set data){
-                foreach(row item in data.rows) {
+                foreach(row item in data) {
                     items.Add(new fk_member(item));
                 }
             }

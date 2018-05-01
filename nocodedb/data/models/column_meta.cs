@@ -61,6 +61,12 @@ namespace nocodedb.data.models{
         }
 
     
+        public column_meta(int ordnal,string name,Type data_type) {
+            this.ColumnName=name;
+            this.ColumnOrdinal=ordnal;
+            this.DataType=data_type;
+        }
+
         public column_meta(DataColumnCollection columns,DataRow  row) {
             try{
                 DataColumn c=new DataColumn();
