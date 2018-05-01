@@ -74,7 +74,7 @@ namespace nocodedb.data.models{
             get { 
                 if(null==columns) return null;
 
-                if(index<=this.Count && index>=0 ) {
+                if(index<this.Count && index>=0 ) {
                     return this[index][key];
                 }
                 return null;

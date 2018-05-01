@@ -137,7 +137,11 @@ namespace nocodedb.data.adapters{
                             row result=new row(results.columns);
                             for (int i = 0; i < reader.FieldCount; i++) {
                                 try{
-                                    result.Add(reader.GetName(i),reader[i]);
+                                    if(reader[i].GetType()==typeof(string)) {
+                                        result.Add(reader.GetName(i),reader.GetString(i).Trim());
+                                    } else {
+                                        result.Add(reader.GetName(i),reader[i]);
+                                    }
                                 }catch (Exception e){
                                     this.log(q,log_type.Error,e.ToString());
                                 }

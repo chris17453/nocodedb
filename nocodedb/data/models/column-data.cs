@@ -57,7 +57,7 @@ namespace nocodedb.data.models{
         }
         public static implicit operator System.DBNull(column_data instance) {
             if(null==instance) return null;
-            return (System.DBNull)instance.value;
+            return System.DBNull.Value;
         }
         public static implicit operator System.Decimal(column_data instance) {
             if(null==instance) return 0;
@@ -88,7 +88,7 @@ namespace nocodedb.data.models{
             return (System.Single)instance.value;
         } 
         public static implicit operator System.String(column_data instance) {
-            if(null==instance) return null;
+            if(null==instance || instance.value.Equals(System.DBNull.Value)) return null;
             return (System.String)instance.value;
         }
         public static implicit operator System.UInt16(column_data instance) {

@@ -83,7 +83,8 @@ namespace nocodedb.data.adapters
         public column_data execute_scalar(string connection_string, string query, parameters parameters = null) {
             query_params q = new query_params(connection_string, query, parameters, false, query_types.scalar);
             data_set ds = this.sql_query(q);
-            return ds[0,0];
+            if(ds.Count==0 || String.IsNullOrWhiteSpace(ds[0,"count"])) return new column_data(0);
+            return ds[0,"count"];
         }
 
         public data_set fetch(string connection_string, string query, parameters parameters = null, bool meta = false) {

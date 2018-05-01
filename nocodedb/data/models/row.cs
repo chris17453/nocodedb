@@ -39,7 +39,7 @@ namespace nocodedb.data.models{
                     if(c.ColumnName==key) ordinal=c.ColumnOrdinal;
                 }
                 if(ordinal>=0) {
-                    return new column_data(this[ordinal]);
+                    return new column_data(base[key]);
                 }
                 return null;
             }
