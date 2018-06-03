@@ -20,9 +20,9 @@ using nocodedb.data.models;
 
 namespace nocodedb.data {
     public class crud<T> {
-        internal string _table      =null;
-        internal string [] _pk      =null;
-        internal string [] _json    =null;
+        protected string _table      =null;
+        protected string [] _pk      =null;
+        protected string [] _json    =null;
 
         private string get_pk() {
             List<string> o=new List<string>();
@@ -71,47 +71,83 @@ namespace nocodedb.data {
             return String.Join(",",o.ToArray());
         }
 
-        public bool set_property(string field_name,object value) {
-            PropertyInfo pi=this.GetType().GetProperty(field_name);
-            if (null!=pi) {
-                if(null!=_json) {
-                    foreach(string s in _json) {
-                        if (s==field_name) {
-                            Type type = pi.PropertyType;
-                            if(type.IsGenericType && type.GetGenericTypeDefinition()== typeof(List<>)) {
-                                try {
-                                    object o2;
+        public bool set_list_property(string field_name,Type property_type,object value){
+            try {
+                object o2;
 
-                                    object instance=null;
-                                    Type itemType = type.GetGenericArguments()[0]; // use this...
-                                    Type constructed = typeof(List<>).MakeGenericType(itemType);
-                                    instance = Activator.CreateInstance(constructed);
+                object instance=null;
+                Type itemType = property_type.GetGenericArguments()[0]; // use this...
+                Type constructed = typeof(List<>).MakeGenericType(itemType);
+                instance = Activator.CreateInstance(constructed);
 
-                                    object s2=itemType.MakeByRefType();
-                                    o2=JsonConvert.DeserializeAnonymousType((string)value,instance,new JsonSerializerSettings{
-                                        Error = delegate(object sender, ErrorEventArgs args){
-                                            Console.WriteLine(args.ErrorContext.Error.Message);
-                                            args.ErrorContext.Handled = true;
-                                        }
-                                    });
+                object s2=itemType.MakeByRefType();
+                o2=JsonConvert.DeserializeAnonymousType((string)value,instance,new JsonSerializerSettings{
+                    Error = delegate(object sender, ErrorEventArgs args){
+                        Console.WriteLine(args.ErrorContext.Error.Message);
+                        args.ErrorContext.Handled = true;
+                    }
+                });
 
-
-                                    this.GetType().GetProperty(field_name).SetValue(this,((JArray)o2).ToObject(constructed), null);
-
-                                } catch (Exception ex) {
-                                    Console.WriteLine(ex.Message);
-                                    return false;
-                                }
-                            }
-                            return false;
-
-                        }//end if s==name
-                    }//end for
-                }//end if in _json
-
-                //normal assignement
-                this.GetType().GetProperty(field_name).SetValue(this, value, null);
+                this.GetType().GetProperty(field_name).SetValue(this,((JArray)o2).ToObject(constructed), null);
                 return true;
+            } catch (Exception ex) {
+                Console.WriteLine(String.Format("{0} {1}",field_name,ex.Message));
+            }
+            return false;
+        }
+
+        public bool set_property(string field_name,object value) {
+            try{
+
+                Type  vT=value.GetType();
+
+                //unravel nested type
+                if(vT==typeof(column_data)) {
+                    value=((column_data)value).value;
+                }
+
+                PropertyInfo pi=this.GetType().GetProperty(field_name);
+                Type pT = pi.PropertyType;
+                if (null!=pi) {
+                    if(null!=_json) {
+                        foreach(string s in _json) {
+                            if (s==field_name) {
+                                if(pT.IsGenericType && pT.GetGenericTypeDefinition()== typeof(List<>)) {
+                                    return set_list_property(field_name,pT,value);
+                                }
+                            }//end if s==name
+                        }//end for
+                    }//end if in _json
+
+                    //This is json data
+                    if(pT.IsGenericType && pT.GetGenericTypeDefinition()== typeof(List<>)) {
+                        return set_list_property(field_name,pT,value);
+                    }
+                        
+                    //This is NOT JSON data
+                    //normal assignement... we are being specific here
+                    if(value is Boolean ) { this.GetType().GetProperty(field_name).SetValue(this, (Boolean )value, null);  return true; }
+                    if(value is Byte    ) { this.GetType().GetProperty(field_name).SetValue(this, (Byte    )value, null);  return true; }
+                    if(value is Char    ) { this.GetType().GetProperty(field_name).SetValue(this, (Char    )value, null);  return true; }
+                    if(value is DBNull  ) { this.GetType().GetProperty(field_name).SetValue(this, (DBNull  )value, null);  return true; }
+                    if(value is Decimal ) { this.GetType().GetProperty(field_name).SetValue(this, (Decimal )value, null);  return true; }
+                    if(value is Double  ) { this.GetType().GetProperty(field_name).SetValue(this, (Double  )value, null);  return true; } 
+                    if(value is Int16   ) { this.GetType().GetProperty(field_name).SetValue(this, (Int16   )value, null);  return true; }
+                    if(value is Int32   ) { this.GetType().GetProperty(field_name).SetValue(this, (Int32   )value, null);  return true; }
+                    if(value is Int64   ) { this.GetType().GetProperty(field_name).SetValue(this, (Int64   )value, null);  return true; }
+                    if(value is Object  ) { this.GetType().GetProperty(field_name).SetValue(this, (Object  )value, null);  return true; }
+                    if(value is SByte   ) { this.GetType().GetProperty(field_name).SetValue(this, (SByte   )value, null);  return true; }
+                    if(value is Single  ) { this.GetType().GetProperty(field_name).SetValue(this, (Single  )value, null);  return true; }
+                    if(value is String  ) { this.GetType().GetProperty(field_name).SetValue(this, (String  )value, null);  return true; }
+                    if(value is UInt16  ) { this.GetType().GetProperty(field_name).SetValue(this, (UInt16  )value, null);  return true; }
+                    if(value is UInt32  ) { this.GetType().GetProperty(field_name).SetValue(this, (UInt32  )value, null);  return true; }
+                    if(value is UInt64  ) { this.GetType().GetProperty(field_name).SetValue(this, (UInt64  )value, null);  return true; }
+                    if(value is Guid    ) { this.GetType().GetProperty(field_name).SetValue(this, (Guid    )value, null);  return true; }
+                    if(value is DateTime) { this.GetType().GetProperty(field_name).SetValue(this, (DateTime)value, null);  return true; }
+
+                }
+            } catch(Exception ex) {
+                Console.WriteLine(String.Format("{0} {1}",field_name,ex.Message));
             }
             return false;
         }

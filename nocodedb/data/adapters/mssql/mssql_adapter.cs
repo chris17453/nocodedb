@@ -154,13 +154,13 @@ namespace nocodedb.data.adapters{
                                     results.Add(result);
                                 }
                             }//end while
+                            reader.Close();                                                                             //close this out as well..
                         }//end if reader
                         else {
                             this.log(q,log_type.Info,"NO Rows Returned");
                         }
                     }//end data collection for query types multiple or single
                 
-                    reader.Close();                                                                             //close this out as well..
                     conn.Close();                                                                               //close it out
                     conn.Dispose();                                                                             //clear it (using does this...)
                 }//end using
